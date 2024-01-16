@@ -1,0 +1,64 @@
+# Python
+*.pyc
+*.pyo
+__pycache__/
+
+# Django
+*.log
+db.sqlite3
+
+# Virtual Environment
+/myenv
+.env/
+
+# Local development settings
+*.env
+
+# IDE (e.g., VSCode, PyCharm)
+.vscode/
+.idea/
+
+# Dependency directories
+lib/
+lib64/
+bin/
+include/
+
+# Compiled Python files
+*.pyc
+
+# Compiled Python bytecode
+__pycache__/
+
+# Ignore coverage reports
+htmlcov/
+
+# Ignore test database
+*.sqlite3
+
+# Ignore local test settings
+test_settings.py
+
+# Ignore generated files
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+*.db
+
+# Ignore user-specific files
+*.sublime-workspace
+*.sublime-project
+
+# Django media
+media/
+
+# Ignore secret keys
+*.secret_key
+
+# Ignore configuration files
+*.conf
+
+# Ignore Docker files
+Dockerfile
+docker-compose.yml
