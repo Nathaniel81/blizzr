@@ -26,7 +26,16 @@ jobs:
         cd Backend
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Run Tests
+    - name: Run Tests and Coverage
       run: |
         cd Backend
-        python manage.py test
+        coverage run manage.py test
+    - name: Generate Coverage Report
+      run: |
+        cd Backend
+        coverage report -m
+        coverage xml
+    - name: Check Coverage
+      run: |
+        cd Backend
+        coverage report --fail-under=100
