@@ -32,6 +32,7 @@ __pycache__/
 
 # Ignore coverage reports
 htmlcov/
+.coverage
 
 # Ignore test database
 *.sqlite3
