@@ -23,7 +23,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Dependencies
       run: |
-        cd Backend
+        cd backend
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run Tests and Coverage
@@ -32,7 +32,7 @@ jobs:
         coverage run manage.py test
     - name: Generate Coverage Report
       run: |
-        cd Backend
+        cd backend
         coverage report -m
         coverage xml
     - name: Check Coverage
