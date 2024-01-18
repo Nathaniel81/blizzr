@@ -13,7 +13,7 @@ const Header = () => {
   }, [theme]);
   return (
 	<>
-    <div className="navbar bg-base-100 px-10 mx-auto">
+    <div className="navbar fixed bg-base-100 px-16 mx-auto z-10 top-0">
       <div className="flex justify-between w-full">
         <a className="btn btn-ghost text-2xl font-extrabold px-0">BLIZZR</a>
           <ul className="menu menu-horizontal px-1 space-x-4">
