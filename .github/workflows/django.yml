@@ -28,7 +28,7 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests and Coverage
       run: |
-        cd Backend
+        cd backend
         coverage run manage.py test
     - name: Generate Coverage Report
       run: |
@@ -37,5 +37,5 @@ jobs:
         coverage xml
     - name: Check Coverage
       run: |
-        cd Backend
+        cd backend
         coverage report --fail-under=100
