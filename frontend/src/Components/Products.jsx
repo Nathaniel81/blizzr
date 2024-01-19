@@ -3,7 +3,7 @@ import Ratings  from './Ratings';
 
 const Products = ({ product }) => {
   return (
-    <div>
+    <div className='cursor-pointer'>
       <div className="card bg-base-100 shadow-xl">
         <figure>
           <img
