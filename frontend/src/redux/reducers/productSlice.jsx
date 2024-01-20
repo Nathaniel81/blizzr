@@ -1,11 +1,10 @@
-// src/reducers/productDetailSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const productsSlice = createSlice({
   name: 'products',
   initialState: {
     loading: false,
-    product: [],
+    products: [],
     error: null,
   },
   reducers: {
@@ -14,12 +13,12 @@ const productsSlice = createSlice({
     },
     fetchProductsSuccess: (state, action) => {
       state.loading = false;
-      state.product = action.payload;
+      state.products = action.payload.products;
       state.error = null;
     },
     fetchProductsFailure: (state, action) => {
       state.loading = false;
-      state.product = null;
+      state.products = null;
       state.error = action.payload;
     },
   },

@@ -4,7 +4,7 @@ import Ratings  from './Ratings';
 const Products = ({ product }) => {
   return (
     <div className='cursor-pointer'>
-      <div className="card bg-base-100 shadow-xl">
+      <div className="card bg-base-100 shadow-lg">
         <figure>
           <img
             src={product.image}
@@ -32,7 +32,6 @@ const Products = ({ product }) => {
 
 Products.propTypes = {
 	product: PropTypes.shape({
-     _id: PropTypes.string.isRequired,
      name: PropTypes.string.isRequired,
      image: PropTypes.string.isRequired,
      price: PropTypes.number.isRequired,
