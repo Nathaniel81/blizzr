@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import Ratings  from './Ratings';
+import { Link } from 'react-router-dom';
 
 const Products = ({ product }) => {
   return (
-    <div className='cursor-pointer'>
+    <Link to={`/product/${product.id}`} className='cursor-pointer'>
       <div className="card bg-base-100 shadow-lg">
         <figure>
           <img
-            src={product.image}
+            src={product.main_image}
             alt="Shoes"
             className="w-full h-56 object-cover"
           />
@@ -26,16 +27,17 @@ const Products = ({ product }) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
 Products.propTypes = {
 	product: PropTypes.shape({
+     id: PropTypes.number.isRequired,
      name: PropTypes.string.isRequired,
-     image: PropTypes.string.isRequired,
-     price: PropTypes.number.isRequired,
-     rating: PropTypes.number,
+     main_image: PropTypes.string.isRequired,
+     price: PropTypes.string.isRequired,
+     rating: PropTypes.string,
      numReviews: PropTypes.number.isRequired,
 	}).isRequired,
   };

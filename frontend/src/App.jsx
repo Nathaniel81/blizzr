@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Home from "./Pages/Home";
 import ProductListPage from "./Pages/ProductListPage";
+import ProductDetailPage from "./Pages/ProductDetailPage";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Routes>
           <Route path="/" exact Component={Home} />
           <Route path="/products" Component={ProductListPage} />
+          <Route path="/product/:id" Component={ProductDetailPage} />
           {/* <Route path="/cart" component={CartPage} />
           <Route path="/checkout" component={CheckoutPage} /> */}
         </Routes>
