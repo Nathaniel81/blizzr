@@ -12,6 +12,7 @@ import {resetProductReview} from "../redux/slices/productSlices/productReviewCre
 const ProductDetailPage = () => {
   const { id } = useParams()
 	const dispatch = useDispatch()
+  const navigate = useNavigate();
 
 	const productDetail = useSelector((state) => state.productDetail);
   const { error, loading, product, smallImages } = productDetail;
@@ -53,8 +54,7 @@ const ProductDetailPage = () => {
     // dispatch(fetchProductDetail(id));
   }
   const addToCartHandler = () => {
-    // navigate(`/cart/${id}?qty=${qty}`);
-    console.log('ADD')
+    navigate(`/cart/${id}?qty=${qty}`);
   }
 
   return (
