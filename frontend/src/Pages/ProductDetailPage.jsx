@@ -23,7 +23,8 @@ const ProductDetailPage = () => {
 
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
-
+  const [qty, setQty] = useState(1)
+  const [price, setPrice] = useState(product.price)
 
   useEffect(() => {
     if (reviewSuccess) {
@@ -50,6 +51,10 @@ const ProductDetailPage = () => {
     ))
     setComment('')
     // dispatch(fetchProductDetail(id));
+  }
+  const addToCartHandler = () => {
+    // navigate(`/cart/${id}?qty=${qty}`);
+    console.log('ADD')
   }
 
   return (
@@ -102,7 +107,8 @@ const ProductDetailPage = () => {
             <ul className="list-none p-0">
               <li className="flex justify-between">
                 <span>Price:</span>
-                <strong>${product.price}</strong>
+
+                <strong>${product.price*qty}</strong> 
               </li>
               <hr className='mt-2 pb-2'/>
               <li className="flex justify-between">
@@ -114,9 +120,9 @@ const ProductDetailPage = () => {
                 <li className="flex justify-between">
                   <span>Qty</span>
                   <select
-                    // value={qty}
-                    // onChange={(e) => setQty(e.target.value)}
-                    className="block appearance-none w-1/2 bg-white border border-gray-300 rounded py-1 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    value={qty}
+                    onChange={(e) => setQty(e.target.value)}
+                    className="block appearance-none w-2/6 bg-white border border-gray-300 rounded py-1 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   >
                     {[...Array(product.countInStock).keys()].map((x) => (
                       <option key={x + 1} value={x + 1}>
@@ -129,10 +135,10 @@ const ProductDetailPage = () => {
               <li>
               <hr className='mt-2 pb-2'/>
                 <button
-                  className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="w-full btn"
                   disabled={product.countInStock === 0}
                   type="button"
-                //   onClick={addToCartHandler}
+                  onClick={addToCartHandler}
                 >
                   Add to Cart
                 </button>
@@ -172,14 +178,6 @@ const ProductDetailPage = () => {
                   >
                   </textarea>
                </div>
-               {/* <button
-                //  disabled={reviewLoading}
-                 disabled="disabled"
-                 type="submit"
-                 className="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-800 transition ease-in-out duration-150"
-               >
-                 Submit
-               </button> */}
                {reviewLoading ? 
                <button className="btn">
                   <span className="loading loading-spinner"></span>
