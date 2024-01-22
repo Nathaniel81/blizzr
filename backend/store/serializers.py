@@ -12,7 +12,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        exclude = ['image_1', 'image_2', 'image_3', 'image_4', 'image_5']
+        exclude = ['image_1', 'image_2', 'image_3', 'image_4']
 
     def get_additional_images(self, obj):
         additional_images = [
