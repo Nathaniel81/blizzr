@@ -15,7 +15,7 @@ const Products = ({ product }) => {
         </figure>
         <div className="card-body p-4">
           <h2 className="card-title text-lg font-bold mb-2">{product.name}</h2>
-          <Ratings product={product}/>
+          <Ratings value={product.rating} edit={false} text={`${product.numReviews} reviews`}/>
           <div className="card-actions flex items-center justify-between">
             <p className='font-semibold text-lg'>${product.price}</p>
             <button className="btn btn-sm btn-outline">
