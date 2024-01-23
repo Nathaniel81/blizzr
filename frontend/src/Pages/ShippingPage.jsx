@@ -2,9 +2,8 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-// import FormContainer from '../components/FormContainer';
-// import CheckoutSteps from '../components/CheckoutSteps';
 import { saveShippingAddress } from '../redux/actions/cartActions';
+import CheckoutSteps from '../Components/CheckoutSteps';
 
 
 const ShippingScreen = () => {
@@ -22,14 +21,14 @@ const ShippingScreen = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(saveShippingAddress({ address, city, postalCode, country }));
-    // navigate('/payment');
+    navigate('/payment');
   };
 
   return (
     <>
-      {/* <CheckoutSteps step1 step2 /> */}
-      <h1 className="text-2xl mb-4">Shipping</h1>
-      <div className='max-w-md mx-auto mt-20 p-6 bg-white rounded shadow-md'>
+      <CheckoutSteps step1={'step-primary'} step2={'step-primary'} />
+      <h1 className="text-2xl max-w-md mx-auto mt-14">Shipping</h1>
+      <div className='max-w-md mx-auto p-6 card rounded shadow-md'>
       <form onSubmit={submitHandler} className="max-w-md">
         <div className="mb-4">
           <label htmlFor="address" className="block text-sm font-medium text-gray-700">
@@ -41,7 +40,7 @@ const ShippingScreen = () => {
             placeholder="Enter address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+            className="w-full p-2 border rounded focus:outline-none focus:border-blue-500 input input-bordered"
             required
           />
         </div>
@@ -56,7 +55,7 @@ const ShippingScreen = () => {
             placeholder="Enter city"
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+            className="input input-bordered w-full p-2 border rounded focus:outline-none focus:border-blue-500"
             required
           />
         </div>
@@ -71,7 +70,7 @@ const ShippingScreen = () => {
             placeholder="Enter postal code"
             value={postalCode}
             onChange={(e) => setPostalCode(e.target.value)}
-            className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+            className="input input-bordered w-full p-2 border rounded focus:outline-none focus:border-blue-500"
             required
           />
         </div>
@@ -86,7 +85,7 @@ const ShippingScreen = () => {
             placeholder="Enter country"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-            className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+            className="input input-bordered w-full p-2 border rounded focus:outline-none focus:border-blue-500"
             required
           />
         </div>

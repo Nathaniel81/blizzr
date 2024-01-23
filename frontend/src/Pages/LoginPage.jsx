@@ -22,7 +22,7 @@ const Login = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-	dispatch(fetchUserInfo(username, password));
+	  dispatch(fetchUserInfo(username, password));
   };
 
   useEffect(() => {
