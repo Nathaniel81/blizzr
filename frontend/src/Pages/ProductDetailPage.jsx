@@ -14,6 +14,9 @@ const ProductDetailPage = () => {
 	const dispatch = useDispatch()
   const navigate = useNavigate();
 
+  const userLogin = useSelector(state => state.userInfo)
+  const { user } = userLogin
+
 	const productDetail = useSelector((state) => state.productDetail);
   const { error, loading, product, smallImages } = productDetail;
 
@@ -166,7 +169,7 @@ const ProductDetailPage = () => {
             <h3 className='text-xl font-bold py-8'>Write A Review</h3>
             {reviewSuccess && <Message color={'alert-success'}>Review Submitted</Message>}
             {reviewError && <Message color={'alert-error'}>{reviewError}</Message>}
-    
+            {user ? (
             <form onSubmit={submitHandler}>
                 <Ratings setRating={setRating} />
                 <div className="form-group">
@@ -190,6 +193,9 @@ const ProductDetailPage = () => {
                 Submit
                </button>}
             </form>
+            ): (
+              <Message color={'alert-info'}>Please <Link to='/login'>login</Link> to write a review</Message>
+            )}
           </div>
         </div>
       </div>

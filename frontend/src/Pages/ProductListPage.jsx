@@ -1,10 +1,10 @@
-// import React from 'react'
 /*eslint-disable*/
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 // import products from "../products"
 import Products from "../Components/Products";
+import Loader from '../Components/Loader';
 import { fetchProducts } from '../redux/actions/productActions';
 
 const ProductListPage = () => {

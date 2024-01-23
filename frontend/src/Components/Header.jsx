@@ -19,7 +19,7 @@ const Header = () => {
           <ul className="menu menu-horizontal px-1 space-x-4">
               <li><Link to="/">Home</Link></li>
               <li><Link to="/products">Shop</Link></li>
-              <li><a>About</a></li>
+              <li><Link to="/login">About</Link></li>
               <li><a>Contact</a></li>
           </ul>
           <div className='flex items-center justify-between gap-3'>
