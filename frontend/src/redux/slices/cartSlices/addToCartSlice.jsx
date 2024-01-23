@@ -6,7 +6,8 @@ const addToCartSlice = createSlice({
     loading: false,
     cartItems: localStorage.getItem('cartItems') ?
     [JSON.parse(localStorage.getItem('cartItems'))] : [],
-    // shippingAddress: {},
+    shippingAddress: localStorage.getItem('shippingAddress') ?
+    JSON.parse(localStorage.getItem('shippingAddress')) : {},
     paymentMethod: null,
     error: null,
   },

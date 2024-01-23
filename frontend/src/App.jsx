@@ -10,6 +10,7 @@ import ProductListPage from "./Pages/ProductListPage";
 import ProductDetailPage from "./Pages/ProductDetailPage";
 import CartPage from "./Pages/CartPage";
 import LoginPage from "./Pages/LoginPage";
+import ShippingPage from "./Pages/ShippingPage";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/products" Component={ProductListPage} />
           <Route path="/product/:id" Component={ProductDetailPage} />
           <Route path="/cart/:id?" Component={CartPage} />
+          <Route path="/shipping" Component={ShippingPage} />
           {/*<Route path="/checkout" component={CheckoutPage} /> */}
 
           <Route path="/login" Component={LoginPage} />

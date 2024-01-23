@@ -1,4 +1,10 @@
-import { cartAddItemStart, cartAddItemSuccess, cartAddItemFailure, cartRemoveItem } from "../slices/cartSlices/addToCartSlice";
+import { 
+	cartAddItemStart, 
+	cartAddItemSuccess, 
+	cartAddItemFailure, 
+	cartRemoveItem, 
+	cartSaveShippingAddress 
+} from "../slices/cartSlices/addToCartSlice";
 import axios from "axios";
 
 
@@ -24,4 +30,10 @@ import axios from "axios";
 	dispatch(cartRemoveItem(id));
   
 	localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+  }
+
+  export const saveShippingAddress = (data) => (dispatch) => {
+	dispatch(cartSaveShippingAddress(data));
+  
+	localStorage.setItem('shippingAddress', JSON.stringify(data));
   }
