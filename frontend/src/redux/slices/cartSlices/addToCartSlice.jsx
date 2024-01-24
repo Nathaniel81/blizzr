@@ -4,11 +4,15 @@ const addToCartSlice = createSlice({
   name: 'addToCart',
   initialState: {
     loading: false,
-    cartItems: localStorage.getItem('cartItems') ?
-    JSON.parse(localStorage.getItem('cartItems')) : {},
-    shippingAddress: localStorage.getItem('shippingAddress') ?
-    JSON.parse(localStorage.getItem('shippingAddress')) : {},
-    paymentMethod: null,
+    cartItems: localStorage.getItem('cartItems')
+      ? JSON.parse(localStorage.getItem('cartItems'))
+      : [],
+    shippingAddress: localStorage.getItem('shippingAddress')
+      ? JSON.parse(localStorage.getItem('shippingAddress'))
+      : null,
+    paymentMethod: localStorage.getItem('paymentMethod')
+      ? JSON.parse(localStorage.getItem('paymentMethod'))
+      : null,
     error: null,
   },
   reducers: {
@@ -19,10 +23,15 @@ const addToCartSlice = createSlice({
       state.loading = false;
       const newItem = action.payload;
 
-      const existItemIndex = state.cartItems.findIndex(x => x.product === newItem.product);
+      const existItemIndex = state.cartItems.findIndex(
+        (x) => x.product === newItem.product
+      );
 
       if (existItemIndex !== -1) {
-        state.cartItems[existItemIndex] = newItem;
+        // Update the cart item immutably
+        state.cartItems = state.cartItems.map((item, index) =>
+          index === existItemIndex ? newItem : item
+        );
       } else {
         state.cartItems = [...state.cartItems, newItem];
       }
@@ -34,7 +43,9 @@ const addToCartSlice = createSlice({
     },
     cartRemoveItem: (state, action) => {
       const productIdToRemove = action.payload;
-      state.cartItems = state.cartItems.filter(item => item.product !== productIdToRemove);
+      state.cartItems = state.cartItems.filter(
+        (item) => item.product !== productIdToRemove
+      );
     },
     cartSaveShippingAddress: (state, action) => {
       state.shippingAddress = action.payload;
