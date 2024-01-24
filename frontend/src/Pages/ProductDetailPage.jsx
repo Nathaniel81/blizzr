@@ -54,7 +54,6 @@ const ProductDetailPage = () => {
       id, { rating, comment }
     ))
     setComment('')
-    // dispatch(fetchProductDetail(id));
   }
   const addToCartHandler = () => {
     navigate(`/cart/${id}?qty=${qty}`);
@@ -110,9 +109,7 @@ const ProductDetailPage = () => {
             <ul className="list-none p-0">
               <li className="flex justify-between">
                 <span>Price:</span>
-
                 <strong>${(product.price*qty).toFixed(2)}</strong> 
-                
               </li>
               <hr className='mt-2 pb-2'/>
               <li className="flex justify-between">

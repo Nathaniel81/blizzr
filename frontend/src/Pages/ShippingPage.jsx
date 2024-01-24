@@ -1,4 +1,4 @@
-/*eslint-disable*/
+// /*eslint-disable*/
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -8,15 +8,16 @@ import CheckoutSteps from '../Components/CheckoutSteps';
 
 const ShippingScreen = () => {
   const cart = useSelector((state) => state.cart);
-  const { shippingAddress } = cart;
+  const { shippingAddress } = cart || {};
+  const { address: initialAddress, city: initialCity, postalCode: initialPostalCode, country: initialCountry } = shippingAddress || {};
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [address, setAddress] = useState(shippingAddress.address || '');
-  const [city, setCity] = useState(shippingAddress.city || '');
-  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode || '');
-  const [country, setCountry] = useState(shippingAddress.country || '');
+  const [address, setAddress] = useState(initialAddress || '');
+  const [city, setCity] = useState(initialCity || '');
+  const [postalCode, setPostalCode] = useState(initialPostalCode || '');
+  const [country, setCountry] = useState(initialCountry || '');
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -26,8 +27,8 @@ const ShippingScreen = () => {
 
   return (
     <>
-      <CheckoutSteps step1={'step-primary'} step2={'step-primary'} />
-      <h1 className="text-2xl max-w-md mx-auto mt-14">Shipping</h1>
+      <CheckoutSteps step1={'step-primary'} step2={'step-primary'}></CheckoutSteps>
+      <h1 className="text-2xl font-bold pb-3 max-w-md mx-auto mt-14">SHIPPING</h1>
       <div className='max-w-md mx-auto p-6 card rounded shadow-md'>
       <form onSubmit={submitHandler} className="max-w-md">
         <div className="mb-4">

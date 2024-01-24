@@ -29,8 +29,8 @@ const PaymentScreen = () => {
 
             <form onSubmit={submitHandler} className="max-w-md mx-auto my-6">
                 <div className="mb-4">
-                    <label className="block text-2xl font-medium text-gray-700 py-4 mt-4">
-                        Select Method
+                    <label className="block text-2xl font-bold text-gray-700 py-4 mt-4">
+                        SELECT METHOD
                     </label>
                     <div className="mt-1">
                         <label className="inline-flex items-center">

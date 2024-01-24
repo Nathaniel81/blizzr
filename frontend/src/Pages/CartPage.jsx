@@ -11,7 +11,6 @@ const ShoppingCart = () => {
   
   const cart = useSelector(state => state.cart)
   const { cartItems } = cart
-
   const userLogin = useSelector(state => state.userInfo);
   const { user } = userLogin;
 
@@ -25,7 +24,7 @@ const ShoppingCart = () => {
   const dispatch = useDispatch();
   const qty = Number(query.get('qty'))
   // const qty = Number(new URLSearchParams(window.location.search).get('qty'));
-
+  
   useEffect(() => {
     if (id) {
       dispatch(addToCart(id, qty));
@@ -43,10 +42,9 @@ const ShoppingCart = () => {
 		}
   }
 
-
   return (
     <div className="mx-auto md:mt-20 mt-36 px-16">
-      <h1 className="text-2xl font-semibold mb-4">Shopping Cart</h1>
+      <h1 className="text-2xl mb-4 py-5 font-bold">SHOPPING CART</h1>
       <div className="flex flex-col md:flex-row justify-between items-center gap-8">
         <div className="md:w-[65%] w-full">
           {cartItems.length === 0 ? (
@@ -55,33 +53,34 @@ const ShoppingCart = () => {
             <ul className="list-none p-0">
               {cartItems.map((item) => (
                 <li key={item.product} className="mb-4 border-b border-gray-200">
-                  <div className="flex items-center justify-between">
-                    <div className="w-1/6">
+                  <div className="flex flex-wrap items-center justify-between">
+                    <div className="w-full sm:w-1/6 mb-2 sm:mb-0 flex items-start align-top">
                       <img src={item.image} alt={item.name} className="w-full h-auto" />
                     </div>
-                    <div className="w-2/6">
+                    <div className="w-full sm:w-2/6 mb-2 sm:mb-0 flex items-start align-top">
                       <Link to={`/product/${item.product}`} className="hover:underline pl-2">{item.name}</Link>
                     </div>
-                    <div className="w-1/6">
-                    ${(item.price * item.qty).toFixed(2)}
+                    <div className="w-full sm:w-1/6 mb-2 sm:mb-0">
+                      ${(item.price * item.qty).toFixed(2)}
                     </div>
-                    <div className="w-1/6">
+                    <div className="w-full sm:w-1/6 mb-2 sm:mb-0">
                       <select
                         value={item.qty}
                         onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value)))}
                         className="block w-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-blue-500"
                       >
-                        {[...Array(item.countInStock).keys()].map((x) => (
-                          <option key={x + 1} value={x + 1}>
-                            {x + 1}
-                          </option>
-                        ))}
+                      {[...Array(Math.abs(item.countInStock)).keys()].map((x) => (
+                        <option key={x + 1} value={x + 1}>
+                          {x + 1}
+                        </option>
+                      ))}
+
                       </select>
                     </div>
-                    <div className="w-1/12 flex items-center justify-end">
+                    <div className="w-full sm:w-1/12 mb-2 sm:mb-0 flex items-center justify-end">
                       <button
                         type='button'
-                        className='text-red-500 hover:text-red-700 focus:outline-none'
+                        className='hover:text-red-700 focus:outline-none'
                         onClick={() => removeFromCartHandler(item.product)}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -99,7 +98,7 @@ const ShoppingCart = () => {
           <div className="p-6 bg-white rounded shadow-md w-full">
             <ul className="list-none p-0">
               <li className="mb-4 border-b border-gray-200">
-                <h2 className="text-lg font-semibold">Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) items</h2>
+                <h2 className="text-lg font-semibold">SUBTOTAL ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) ITEMS</h2>
                 <span>${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</span>
               </li>
               <li className="text-center my-3">
@@ -109,7 +108,7 @@ const ShoppingCart = () => {
                   disabled={cartItems.length === 0}
                   onClick={checkoutHandler}
                 >
-                  Proceed To Checkout
+                  PROCEED TO CHECKOUT
                 </button>
               </li>
             </ul>
