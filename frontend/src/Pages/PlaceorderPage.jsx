@@ -6,9 +6,7 @@ import Message from '../Components/Message'
 import CheckoutSteps from '../Components/CheckoutSteps'
 import { createOrder } from '../redux/actions/orderActions'
 import { orderCreateReset } from '../redux/slices/orderSlices/orderCreateSlice'
-// import { createOrder } from '../actions/orderActions'
-// import { ORDER_CREATE_RESET } from '../constants/orderConstants'
-/*eslint-disable*/
+// /*eslint-disable*/
 const PlaceorderPage = () => {
     const dispatch = useDispatch()
 	const navigate = useNavigate()
@@ -54,13 +52,13 @@ const PlaceorderPage = () => {
 
 	return (
 		<div className='mx-auto px-16'>
-		  <CheckoutSteps step1 step2 step3 step4 />
-		  <div className="flex flex-wrap my-10">
+          <CheckoutSteps step1 step2 step3 step4 />
+        <div className="flex flex-wrap my-10">
 			<div className="w-full sm:w-8/12 mb-8 sm:mb-0 pr-4">
-			  <div className="py-5">
+              <div className="py-5">
 				<h2 className="text-2xl font-bold">SHIPPING</h2>
 				<p className="mt-2">
-				  <strong>Shipping: </strong>
+                <strong>Shipping: </strong>
 				  {cart.shippingAddress.address}, {cart.shippingAddress.city} {cart.shippingAddress.postalCode}, {cart.shippingAddress.country}
 				</p>
 			  </div>
