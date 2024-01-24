@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 // import products from "../products"
 import Products from "../Components/Products";
 import Loader from '../Components/Loader';
+import Message from '../Components/Message';
 import { fetchProducts } from '../redux/actions/productActions';
 
 const ProductListPage = () => {
@@ -16,6 +17,12 @@ const ProductListPage = () => {
       dispatch(fetchProducts());
   }, [dispatch]);
   return (
+    loading ? (<Loader />) : (
+      error ? (
+        <div className='mt-32 py-10 px-16 mx-auto'>
+          <Message color={'alert-error'}>{error}</Message>
+        </div>
+      ):(
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 px-4 md:px-8 lg:px-16 mx-auto mt-32">
       {products && products.map((product) => (
         <div key={product.id} className="mb-8">
@@ -23,6 +30,8 @@ const ProductListPage = () => {
         </div>
       ))}
     </div>
+      )
+    )
   );
 };
 
