@@ -7,7 +7,7 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
       <ul className="steps text-md w-2/5 mx-auto">
         <li className={`step ${step1 ? 'step-primary' : ''}`}>
           {step1 ? (
-            <Link to="/login">Login</Link>
+            <Link to="/login" className='hover:underline'>Login</Link>
           ) : (
             <span className="text-gray-500 cursor-not-allowed">Login</span>
           )}

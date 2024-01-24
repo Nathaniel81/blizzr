@@ -3,7 +3,8 @@ import {
 	cartAddItemSuccess, 
 	cartAddItemFailure, 
 	cartRemoveItem, 
-	cartSaveShippingAddress 
+	cartSaveShippingAddress,
+	cartSavePaymentMethod
 } from "../slices/cartSlices/addToCartSlice";
 import axios from "axios";
 
@@ -37,3 +38,9 @@ import axios from "axios";
   
 	localStorage.setItem('shippingAddress', JSON.stringify(data));
   }
+
+  export const savePaymentMethod = (data) => (dispatch) => {
+    dispatch(cartSavePaymentMethod(data));
+
+    localStorage.setItem('paymentMethod', JSON.stringify(data))
+}

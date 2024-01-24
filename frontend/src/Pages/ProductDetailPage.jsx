@@ -111,7 +111,8 @@ const ProductDetailPage = () => {
               <li className="flex justify-between">
                 <span>Price:</span>
 
-                <strong>${product.price*qty}</strong> 
+                <strong>${(product.price*qty).toFixed(2)}</strong> 
+                
               </li>
               <hr className='mt-2 pb-2'/>
               <li className="flex justify-between">
