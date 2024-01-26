@@ -2,10 +2,14 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { saveOrderValues } from '../redux/slices/cartSlices/addToCartSlice';
+import { logout } from '../redux/actions/userActions';
 
 const Header = () => {
   const [theme, setTheme] = useState('light');
   const dispatch = useDispatch();
+
+  const userLogin = useSelector(state => state.userInfo)
+  const { user } = userLogin
 
   const cart = useSelector(state => state.cart)
   const { cartItems } = cart;
@@ -22,6 +26,11 @@ const Header = () => {
       elem?.blur();
     }
   };
+
+  const logoutHandler = () => {
+    dispatch(logout())
+
+  }
   // const [dropdownVisible, setDropdownVisible] = useState(false);
 
   useEffect(() => {
@@ -60,7 +69,7 @@ const Header = () => {
                     <span className="font-bold text-lg">{cartItems.length} Item</span>
                   )}
                   <span className="text-info">Subtotal: {orderValues && (
-                   `${orderValues.totalPrice}`
+                   `$${orderValues.totalPrice}`
                   )}</span>
                   <div className="card-actions" onClick={handleClick}>
                     <Link to='/cart' className="btn btn-primary btn-block">View cart</Link>
@@ -83,13 +92,17 @@ const Header = () => {
                   </label>
                 </li>
                 <li>
-                  <a className="justify-between">
+                  <Link to='/profile' className="justify-between" onClick={handleClick}>
                     Profile
-                    <span className="badge">New</span>
-                  </a>
+                    {/* <span className="badge">New</span> */}
+                  </Link>
                     {/* <a onClick={toggleTheme}>Light</a> */}
                 </li>
-                <li><a>Logout</a></li>
+                {user ? (
+                  <li onClick={logoutHandler} ><Link onClick={handleClick}>Logout</Link></li>
+                ):(
+                  <li onClick={handleClick}><Link to='/login'>Login</Link></li>
+                )}
               </ul>
             </div>
           </div>
