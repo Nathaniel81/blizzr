@@ -15,6 +15,16 @@ import {
 	orderPaySuccess, 
 	orderPayFailure 
 } from "../slices/orderSlices/orderPaySlice";
+import { 
+    orderUserListRequest, 
+    orderUserListSuccess, 
+    orderUserListFailure 
+} from "../slices/orderSlices/orderUserListSlice";
+import { 
+    orderDeliverRequest, 
+    orderDeliverSuccess, 
+    orderDeliverFailure 
+} from "../slices/orderSlices/orderDeliverSlice";
 
 export const createOrder = (order) => async (dispatch, getState) => {
 	try {
@@ -86,7 +96,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
 		}
 
         const { data } = await axios.put(
-            `http://127.0.0.1:8000/api/orders/${id}/pay`,
+            `/api/orders/${id}/pay`,
             paymentResult,
             config
         )
@@ -98,3 +108,61 @@ export const createOrder = (order) => async (dispatch, getState) => {
     }
 }
 
+export const listUserOrders = () => async (dispatch, getState) => {
+    try {
+        dispatch(orderUserListRequest())
+
+        const {
+            userInfo: { user },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user.token}`
+            }
+		}
+
+        const { data } = await axios.get(
+            `/api/orders/myorders`,
+            config
+        )
+
+        dispatch(orderUserListSuccess(data))
+
+    } catch (error) {
+        dispatch(orderUserListFailure())
+    }
+}
+
+export const deliverOrder = (order) => async (dispatch, getState) => {
+    try {
+        dispatch(orderDeliverRequest())
+
+        const {
+            userInfo: { user },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user.token}`
+            }
+        }
+
+        const { data } = await axios.put(
+            `http://127.0.0.1:8000/api/orders/${order.id}/deliver`,
+            {},
+            config
+        )
+
+        dispatch(orderDeliverSuccess(data))
+
+    } catch (error) {
+        dispatch(orderDeliverFailure({
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        }))
+    }
+}
