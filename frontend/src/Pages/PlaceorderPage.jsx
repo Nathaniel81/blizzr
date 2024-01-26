@@ -5,13 +5,15 @@ import { useNavigate } from 'react-router-dom'
 import Message from '../Components/Message'
 import CheckoutSteps from '../Components/CheckoutSteps'
 import { createOrder } from '../redux/actions/orderActions'
-import { orderCreateReset } from '../redux/slices/orderSlices/orderCreateSlice'
-// /*eslint-disable*/
+import { saveOrderValues } from '../redux/slices/cartSlices/addToCartSlice';
+// import { orderCreateReset } from '../redux/slices/orderSlices/orderCreateSlice'
+/*eslint-disable*/
 const PlaceorderPage = () => {
     const dispatch = useDispatch()
 	const navigate = useNavigate()
 	const orderCreate = useSelector(state => state.orderCreate)
     const { order, error, success } = orderCreate
+	const orderValues = useSelector(state => state.cart.orderValues)
 
 	const cart = useSelector(state => state.cart)
 
@@ -33,8 +35,7 @@ const PlaceorderPage = () => {
         }
         if (success) {
 			console.log('Order Created', error)
-            // navigate(`/order/${order.id}`)
-            dispatch(orderCreateReset)
+            navigate(`/order/${order.id}`)
         }
     }, [order, dispatch, success, navigate, cart, error])
 
@@ -53,7 +54,7 @@ const PlaceorderPage = () => {
 	return (
 		<div className='mx-auto px-16'>
           <CheckoutSteps step1 step2 step3 step4 />
-        <div className="flex flex-wrap my-10">
+          <div className="flex flex-wrap my-10">
 			<div className="w-full sm:w-8/12 mb-8 sm:mb-0 pr-4">
               <div className="py-5">
 				<h2 className="text-2xl font-bold">SHIPPING</h2>
@@ -97,25 +98,29 @@ const PlaceorderPage = () => {
 			<div className="w-full sm:w-4/12 card rounded shadow-md h-full">
 			  <div className="m-4">
 				<div className="mb-4 text-2xl font-bold">ORDER SUMMARY</div>
+				{orderValues && (
+					<>
 				<div className="flex justify-between py-1 ">
 				  <div>Items:</div>
-				  <div>${updatedCart.itemsPrice}</div>
+				  <div>${orderValues.itemsPrice}</div>
 				</div>
 				<hr className='pt-2'/>
 				<div className="flex justify-between py-1">
 				  <div>Shipping:</div>
-				  <div>${updatedCart.shippingPrice}</div>
+				  <div>${orderValues.shippingPrice}</div>
 				</div>
 				<hr className='pt-2'/>
 				<div className="flex justify-between py-1">
 				  <div>Tax:</div>
-				  <div>${updatedCart.taxPrice}</div>
+				  <div>${orderValues.taxPrice}</div>
 				</div>
 				<hr className='pt-2'/>
 				<div className="flex justify-between py-1">
 				  <div>Total:</div>
-				  <div>${updatedCart.totalPrice}</div>
+				  <div>${orderValues.totalPrice}</div>
 				</div>
+					</>
+				)}
 				<div className="mt-4">
 				  {error && <Message color={'alert-error'}>{error}</Message>}
 				</div>
