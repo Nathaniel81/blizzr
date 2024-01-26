@@ -1,13 +1,12 @@
-// /*eslint-disable */
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useParams, useNavigate } from 'react-router-dom'
 import Message from '../Components/Message';
 import { addToCart, removeFromCart } from '../redux/actions/cartActions';
-// import { cartClearItems } from '../redux/slices/cartSlices/addToCartSlice';
-
+import { saveOrderValues } from '../redux/slices/cartSlices/addToCartSlice';
 
 const ShoppingCart = () => {
+  // const orderValues = useSelector(state => state.cart.orderValues)
   
   const cart = useSelector(state => state.cart)
   const { cartItems } = cart
@@ -39,6 +38,7 @@ const ShoppingCart = () => {
 			navigate('/login?redirect=shipping')
 		} else {
 			navigate('/shipping')
+      dispatch(saveOrderValues())
 		}
   }
 
