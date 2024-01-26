@@ -10,6 +10,8 @@ import Loader from '../Components/Loader'
 import { getOrderDetail, payOrder } from '../redux/actions/orderActions'
 import { orderCreateReset } from '../redux/slices/orderSlices/orderCreateSlice'
 import { orderPayReset } from '../redux/slices/orderSlices/orderPaySlice'
+import { deliverOrder } from '../redux/actions/orderActions'
+import { orderDeliverReset } from '../redux/slices/orderSlices/orderDeliverSlice'
 
 const OrderPage = () => {
 	const navigate = useNavigate()
@@ -18,6 +20,9 @@ const OrderPage = () => {
 	const { id } = useParams();
 	const orderDetails = useSelector(state => state.orderDetail)
     const { orderItems:order, error, loading } = orderDetails
+
+	const orderDeliver = useSelector(state => state.orderDeliver)
+    const { loading: loadingDeliver, success: successDeliver } = orderDeliver
 	
 	const orderPay = useSelector(state => state.orderPay)
 	const { loading: loadingPay, success: successPay } = orderPay
@@ -27,7 +32,11 @@ const OrderPage = () => {
 
 	const successPaymentHandler = (paymentResult) => {
         dispatch(payOrder(id, paymentResult))
-    }    
+    }   
+	
+	const deliverHandler = () => {
+        dispatch(deliverOrder(order))
+    }
 
 	const [sdkReady, setSdkReady] = useState(false)
 
@@ -41,21 +50,18 @@ const OrderPage = () => {
         }
         document.body.appendChild(script)
     }
-	// console.log(
-	// 	'id=', id,
-	// 	order.id !== Number(id)
-	// 	)
 
 	useEffect(() => {
 		if (!user) {
 		  navigate('/login');
 		}
-		if (!order || order.id !== Number(id)|| successPay) {
+		if (!order || order.id !== Number(id)|| successPay || successDeliver) {
 			console.log('effect');
 			dispatch(getOrderDetail(id))
 			console.log('Resetting...');
 			dispatch(orderCreateReset())
 			dispatch(orderPayReset())
+			dispatch(orderDeliverReset())
 
 		} else if (!order.isPaid) {
             if (!window.paypal) {
@@ -64,7 +70,7 @@ const OrderPage = () => {
                 setSdkReady(true)
             }
 		}
-	}, [dispatch, navigate, user, order, successPay, id]);
+	}, [dispatch, navigate, user, order, successPay, successDeliver, id]);
 	  
 	return loading ? (
 		<Loader />
@@ -91,7 +97,7 @@ const OrderPage = () => {
   				        {order.shippingAddress.postalCode}, {order.shippingAddress.country}
   				      </p>
   				      {order.isDelivered ? (
-  				        <div className="p-2 bg-green-100 text-green-800">Delivered on {order.deliveredAt}</div>
+  				        <div className="p-2 bg-green-100 text-green-800">Delivered on {order.deliveredAt.substring(0, 10)}</div>
   				      ) : (
   				        <div className="p-2 bg-yellow-100 text-yellow-800">Not Delivered</div>
   				      )}
@@ -103,7 +109,7 @@ const OrderPage = () => {
   				        {order.paymentMethod}
   				      </p>
   				      {order.isPaid ? (
-  				        <div className="p-2 bg-green-100 text-green-800">Paid on {order.paidAt}</div>
+  				        <div className="p-2 bg-green-100 text-green-800">Paid on {order.paidAt.substring(0, 10)}</div>
   				      ) : (
   				        <div className="p-2 bg-yellow-100 text-yellow-800">Not Paid</div>
   				      )}
@@ -177,18 +183,18 @@ const OrderPage = () => {
     	    		  </div>
     	    		)}
                 </div>
-		    			{/* {loadingDeliver && <Loader />} */}
-		    			{/* {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && ( */}
-                		{/* <div>
-    	    				<button
-      	    				type="button"
-      	    				className="btn btn-block"
-    	    				//   onClick={deliverHandler}
-    	    				>
-      	    				Mark As Delivered
-    	    				</button>
-  		    			</div> */}
-		    			{/* // )} */}
+		    	{loadingDeliver && <Loader />}
+		    	{user && user.isAdmin && order.isPaid && !order.isDelivered && (
+                <div>
+    	    		<button
+      	    		type="button"
+      	    		className="btn btn-block"
+    	    		  onClick={deliverHandler}
+    	    		>
+      	    		Mark As Delivered
+    	    		</button>
+  		    	</div>
+		    	 )}
   		    </div>
 		</div>
 	</div>
