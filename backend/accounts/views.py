@@ -17,18 +17,19 @@ class GetUserProfile(generics.RetrieveAPIView):
     def get_object(self):
         return self.request.user
     
-# class UpdateUserProfile(generics.UpdateAPIView):
-#     permission_classes = IsAuthenticated
-#     serializer_class = UserSerializerWithToken
-#     def get_object(self):
-#         return self.request.user
-#     def perform_update(self, serializer):
-#         serializer.save()
-#         password = self.request.data.get('password')
-#         if password:
-#             user = self.get_object()
-#             user.set_password(password)
-#             user.save()
+class UpdateUserProfile(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializerWithToken
+    def get_object(self):
+        return self.request.user
+    def perform_update(self, serializer):
+        print(self.request.data)
+        serializer.save()
+        password = self.request.data.get('password')
+        if password:
+            user = self.get_object()
+            user.set_password(password)
+            user.save()
 class RegistrationView(generics.CreateAPIView):
     serializer_class = RegistrationSerializer
 
@@ -44,3 +45,7 @@ class RegistrationView(generics.CreateAPIView):
             'token': serializedData.get('token')
         }
         return Response(data)
+class GetAllUsers(generics.ListAPIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
