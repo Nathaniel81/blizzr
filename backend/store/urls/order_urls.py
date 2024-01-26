@@ -14,6 +14,6 @@ urlpatterns = [
     #  path('<str:pk>/deliver/', views.UpdateOrderToDeliverdView.as_view(), name='order-delivered'),
 
 
-    # path('<str:pk>/', views.GetOrderView.as_view(), name='user-order'),
-    # path('<str:pk>/pay/', views.UpdateOrderToPaidView.as_view(), name='pay'),
+    path('<str:pk>/', views.GetOrderView.as_view(), name='user-order'),
+    path('<str:pk>/pay', views.UpdateOrderToPaidView.as_view(), name='pay'),
 ]

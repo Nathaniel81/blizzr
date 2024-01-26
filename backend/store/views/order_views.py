@@ -1,7 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-# from datetime import datetime
+from datetime import datetime
 from store.models import Order, OrderItem, Product, ShippingAddress
 from store.serializers import OrderSerializer
 from accounts.models import User
@@ -38,7 +38,6 @@ class AddOrderItemsView(generics.CreateAPIView):
 
         for i in orderItems:
             product = Product.objects.get(id=i['product'])
-            print(product.main_image)
 
             item = OrderItem.objects.create(
                 product=product,
@@ -46,10 +45,43 @@ class AddOrderItemsView(generics.CreateAPIView):
                 name=product.name,
                 qty=i['qty'],
                 price=i['price'],
-                image=product.main_image.url,
+                image=product.main_image,
             )
             product.countInStock -= item.qty
             product.save()
 
         serializer = OrderSerializer(order, many=False)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class GetOrderView(generics.RetrieveAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'pk'
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        try:
+            instance = self.get_object()
+            if user.is_staff or instance.user == user:
+                serializer = self.get_serializer(instance)
+                return Response(serializer.data)
+            else:
+                return Response({'detail': 'Not authorized to view this order'},
+                                status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response({'detail': 'Order does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+class UpdateOrderToPaidView(generics.UpdateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'pk'
+    def update(self, request, *args, **kwargs):
+        order = self.get_object()
+        order.isPaid = True
+        order.paidAt = datetime.now()
+        serializer = self.get_serializer(order, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'detail': 'Order was paid'})
