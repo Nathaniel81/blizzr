@@ -21,7 +21,7 @@ const ProductDetailPage = () => {
   const { error, loading, product, smallImages } = productDetail;
 
   const productReview = useSelector((state) => state.productReview);
-  const { error: reviewError, loading: reviewLoading, reviewSuccess } = productReview;
+  const { error: reviewError, loading: reviewLoading, success } = productReview;
 
 	const [selectedImage, setSelectedImage] = useState(product.main_image);
 
@@ -31,7 +31,11 @@ const ProductDetailPage = () => {
   const [price, setPrice] = useState(product.price)
 
   useEffect(() => {
-    if (reviewSuccess) {
+    if(!user) {
+      navigate('/')
+    }
+    if (success) {
+      console.log('x')
       dispatch(resetProductReview())
       dispatch(fetchProductDetail(id))
     }
@@ -39,7 +43,7 @@ const ProductDetailPage = () => {
       dispatch(resetProductReview())
       dispatch(fetchProductDetail(id));
     }
-  }, [dispatch, product.review, id, product.id, reviewSuccess]);
+  }, [dispatch, product.review, id, product.id, success]);
 
   useEffect(() => {
     setSelectedImage(product.main_image);
@@ -165,7 +169,7 @@ const ProductDetailPage = () => {
             </div>
             
             <h3 className='text-xl font-bold py-8'>Write A Review</h3>
-            {reviewSuccess && <Message color={'alert-success'}>Review Submitted</Message>}
+            {success && <Message color={'alert-success'}>Review Submitted</Message>}
             {reviewError && <Message color={'alert-error'}>{reviewError}</Message>}
             {user ? (
             <form onSubmit={submitHandler}>
