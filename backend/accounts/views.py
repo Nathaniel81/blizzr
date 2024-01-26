@@ -42,7 +42,8 @@ class RegistrationView(generics.CreateAPIView):
             'response': 'Successfully registered',
             'username': serializedData['username'],
             'email': serializedData['email'],
-            'token': serializedData.get('token')
+            'token': serializedData.get('token'),
+            'tokens': serializedData.get('tokens')
         }
         return Response(data)
 class GetAllUsers(generics.ListAPIView):
