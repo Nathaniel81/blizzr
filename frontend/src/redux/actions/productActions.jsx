@@ -24,22 +24,24 @@ import axios from 'axios'
 	}
   };
 
-  export const createProductReview = (id, review) => async (dispatch) => {
+  export const createProductReview = (id, review) => async (dispatch, getState) => {
 	try {
 		dispatch(createReviewStart());
-		// const {
-        //     userLogin: { userInfo },
-        // } = getState()
+		const {
+            userInfo: { user },
+        } = getState()
 
-        // const config = {
-        //     headers: {
-        //         'Content-type': 'application/json',
-        //         Authorization: `Bearer ${userInfo.token}`
-        //     }
-        // }
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user.access}`
+            }
+        }
+		console.log(user.token)
 		const { data } = await axios.post(
 			`/api/products/${id}/review/`,
-			review
+			review,
+			config
 			)
 		dispatch(createReviewSuccess(data));
 	} catch (error) {
