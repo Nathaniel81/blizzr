@@ -5,7 +5,7 @@ const userInfoSlice = createSlice({
   initialState: {
     loading: false,
     user: localStorage.getItem('userInfo') ?
-    JSON.parse(localStorage.getItem('userInfo')) : [],
+    JSON.parse(localStorage.getItem('userInfo')) : null,
     error: null,
   },
   reducers: {
@@ -22,6 +22,9 @@ const userInfoSlice = createSlice({
       state.user = null;
       state.error = action.payload;
     },
+    userLogout: (state) => {
+      state.user = null;
+    }
   },
 });
 
@@ -29,5 +32,6 @@ export const {
   userLoginRequest,
   userLoginSuccess,
   userLoginFailure,
+  userLogout
 } = userInfoSlice.actions;
 export default userInfoSlice.reducer;

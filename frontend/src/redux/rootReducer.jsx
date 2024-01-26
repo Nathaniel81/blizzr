@@ -7,6 +7,11 @@ import addToCartReducer from './slices/cartSlices/addToCartSlice';
 import orderCreateReducer from './slices/orderSlices/orderCreateSlice';
 import orderDetailReducer from './slices/orderSlices/orderDetailSlice';
 import orderPayReducer from './slices/orderSlices/orderPaySlice';
+import userDetailReducer from './slices/userSlices/userDetailsSlice';
+import userUpdateReducer from './slices/userSlices/userUpdateSlice';
+import orderUserListReducer from './slices/orderSlices/orderUserListSlice';
+import userRegisterReducer from './slices/userSlices/userRegisterSlice';
+import orderDeliverReducer from './slices/orderSlices/orderDeliverSlice';
 
 const rootReducer = combineReducers({
   products: productsReducer,
@@ -16,7 +21,12 @@ const rootReducer = combineReducers({
   cart: addToCartReducer,
   orderCreate: orderCreateReducer,
   orderDetail: orderDetailReducer,
-  orderPay: orderPayReducer
+  orderPay: orderPayReducer,
+  userDetail: userDetailReducer,
+  userUpdate: userUpdateReducer,
+  userOrders: orderUserListReducer,
+  userRegister: userRegisterReducer,
+  orderDeliver: orderDeliverReducer
 });
 
 export default rootReducer;
