@@ -5,22 +5,26 @@ const orderCreateSlice = createSlice({
   initialState: {
     loading: false,
     success: false,
+     order: {},
     error: null,
   },
   reducers: {
     orderCreateStart: (state) => {
       state.loading = true;
     },
-    orderCreateSuccess: (state) => {
+    orderCreateSuccess: (state, action) => {
       state.loading = false;
-      state.order = true;
+      state.success = true;
+      state.order = action.payload;
     },
     orderCreateFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+      state.success = false;
     },
     orderCreateReset: (state) => {
-      state.order = {}
+      state.order = {};
+      state.success = false;
     },
     // cartSaveShippingAddress: (state, action) => {
     //   state.shippingAddress = action.payload;

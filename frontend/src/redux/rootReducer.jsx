@@ -5,6 +5,8 @@ import productReviewCreateReducer from './slices/productSlices/productReviewCrea
 import userLoginInfoReducer from './slices/userSlices/userInfoSlice';
 import addToCartReducer from './slices/cartSlices/addToCartSlice';
 import orderCreateReducer from './slices/orderSlices/orderCreateSlice';
+import orderDetailReducer from './slices/orderSlices/orderDetailSlice';
+import orderPayReducer from './slices/orderSlices/orderPaySlice';
 
 const rootReducer = combineReducers({
   products: productsReducer,
@@ -12,7 +14,9 @@ const rootReducer = combineReducers({
   productReview: productReviewCreateReducer,
   userInfo: userLoginInfoReducer,
   cart: addToCartReducer,
-  orderCreate: orderCreateReducer
+  orderCreate: orderCreateReducer,
+  orderDetail: orderDetailReducer,
+  orderPay: orderPayReducer
 });
 
 export default rootReducer;

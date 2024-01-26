@@ -13,6 +13,7 @@ const addToCartSlice = createSlice({
     paymentMethod: localStorage.getItem('paymentMethod')
       ? JSON.parse(localStorage.getItem('paymentMethod'))
       : null,
+    orderValues: null,
     error: null,
   },
   reducers: {
@@ -28,7 +29,6 @@ const addToCartSlice = createSlice({
       );
 
       if (existItemIndex !== -1) {
-        // Update the cart item immutably
         state.cartItems = state.cartItems.map((item, index) =>
           index === existItemIndex ? newItem : item
         );
@@ -56,6 +56,20 @@ const addToCartSlice = createSlice({
     cartClearItems: (state) => {
       state.cartItems = [];
     },
+    saveOrderValues: (state) => {
+      if (state.cartItems.length !== 0) {
+        const itemsPrice = state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2)
+        const shippingPrice = (itemsPrice > 100 ? 0 : 10).toFixed(2)
+        const taxPrice = Number((0.082) * itemsPrice).toFixed(2)
+        const totalPrice = (Number(itemsPrice) + Number(shippingPrice) + Number(taxPrice)).toFixed(2)
+        state.orderValues = {
+          itemsPrice,
+          shippingPrice,
+          taxPrice,
+          totalPrice
+        }
+      }
+    }
   },
 });
 
@@ -67,5 +81,6 @@ export const {
   cartSaveShippingAddress,
   cartSavePaymentMethod,
   cartClearItems,
+  saveOrderValues
 } = addToCartSlice.actions;
 export default addToCartSlice.reducer;
