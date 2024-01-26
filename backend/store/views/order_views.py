@@ -72,6 +72,14 @@ class GetOrderView(generics.RetrieveAPIView):
         except:
             return Response({'detail': 'Order does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
+class GetMyOrdersView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        user = self.request.user
+        orders = user.order_set.all()
+        return orders
+
 class UpdateOrderToPaidView(generics.UpdateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
