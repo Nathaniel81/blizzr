@@ -1,7 +1,7 @@
 /*eslint-disable*/
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 // import products from "../products"
 import Products from "../Components/Products";
 import Loader from '../Components/Loader';
@@ -13,9 +13,20 @@ const ProductListPage = () => {
   const productList = useSelector((state) => state.products);
   const { error, loading, products } = productList
 
+	// function useQuery() {
+	// 	return new URLSearchParams(useLocation().search);
+	// }
+
+  const [searchParams] = useSearchParams();
+  // const keyword = searchParams.get('keyword');
+  // let queryString = searchParams.toString();
+  const location = useLocation();
+  let queryString = location.search;
+  // console.log(queryString)
+
   useEffect(() => {
-      dispatch(fetchProducts());
-  }, [dispatch]);
+      dispatch(fetchProducts(queryString));
+  }, [dispatch, queryString]);
   return (
     loading ? (<Loader />) : (
       error ? (

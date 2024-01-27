@@ -11,7 +11,7 @@ urlpatterns = [
     # path('myorders/', views.getMyOrders, name='myorders'),
 
     # path('<str:pk>/deliver/', views.updateOrderToDelivered, name='order-delivered'),
-    #  path('<str:pk>/deliver/', views.UpdateOrderToDeliverdView.as_view(), name='order-delivered'),
+     path('<str:pk>/deliver', views.UpdateOrderToDeliverdView.as_view(), name='order-delivered'),
 
 
     path('<str:pk>/', views.GetOrderView.as_view(), name='user-order'),

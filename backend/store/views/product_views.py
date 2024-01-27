@@ -35,11 +35,10 @@ class ProductDetail(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
 
 class CreateProductReviewView(generics.CreateAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = Product.objects.all()
     def create(self, request, *args, **kwargs):
-        # user = request.user
-        user = User.objects.get(id=1)
+        user = request.user
         product = self.get_object()
         data = request.data
         print(data, data.get('rating'))
