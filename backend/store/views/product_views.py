@@ -8,7 +8,6 @@ from store.models import Product, Review
 from accounts.models import User
 from store.serializers import ProductSerializer
 
-
 class ProductList(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -18,7 +17,7 @@ class ProductList(generics.ListAPIView):
         queryset = self.queryset.filter(name__icontains=search_param)
 
         page = int(self.request.query_params.get('page', 1))
-        paginator = Paginator(queryset, 6)
+        paginator = Paginator(queryset, 2)
 
         try:
             products = paginator.page(page)
@@ -41,7 +40,6 @@ class CreateProductReviewView(generics.CreateAPIView):
         user = request.user
         product = self.get_object()
         data = request.data
-        print(data, data.get('rating'))
         
         already_exists = product.reviews.filter(user=user).exists()
         if already_exists:

@@ -31,11 +31,10 @@ const ProductDetailPage = () => {
   const [price, setPrice] = useState(product.price)
 
   useEffect(() => {
-    if(!user) {
-      navigate('/')
-    }
+    // if(!user) {
+    //   navigate('/')
+    // }
     if (success) {
-      console.log('x')
       dispatch(resetProductReview())
       dispatch(fetchProductDetail(id))
     }

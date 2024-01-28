@@ -40,7 +40,7 @@ Products.propTypes = {
      rating: PropTypes.string,
      numReviews: PropTypes.number.isRequired,
 	}).isRequired,
-  };
+};
   
 
 export default Products;
