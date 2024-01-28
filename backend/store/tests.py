@@ -205,9 +205,9 @@ class ProductListViewTest(APITestCase):
         self.assertEqual(response.status_code, 200)
 
         # Check that the correct serializer is used and the correct page is returned
-        expected_products = Product.objects.all()[6:12]
+        expected_products = Product.objects.all()[2:4]
         self.assertEqual(response.data['products'], ProductSerializer(expected_products, many=True).data)
 
+
         self.assertEqual(response.data['page'], 2)
-        self.assertEqual(response.data['pages'], 2)
-    
+        self.assertEqual(response.data['pages'], 6)
