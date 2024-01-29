@@ -108,7 +108,7 @@ const Header = () => {
                       </summary>
                       <ul className="p-2 bg-base-100 rounded-t-none" onClick={handleClick}>
                         <li><Link to="/admin/users">Users</Link></li>
-                        <li><Link to="">Products</Link></li>
+                        <li><Link to="/admin/productlist">Products</Link></li>
                         <li><Link to="">Orders</Link></li>
                       </ul>
                     </details>

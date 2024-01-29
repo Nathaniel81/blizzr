@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from store.models import Product, Review
+from store.models import Product, Review, Category
 from accounts.models import User
 from store.serializers import ProductSerializer
 
@@ -71,3 +71,53 @@ class CreateProductReviewView(generics.CreateAPIView):
             product.save()
 
             return Response('Review Added')
+
+class DeleteProductView(generics.DestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = [IsAdminUser, IsAuthenticated]
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response('Product deleted')
+
+class CreateProductView(generics.CreateAPIView):
+    # queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    def perform_create(self, serializer):
+        category_name = 'Electronics'
+        category_instance, created = Category.objects.get_or_create(name=category_name)
+        serializer.save(
+            user=self.request.user,
+            name='Sample Name',
+            price=0,
+            brand='Sample Brand',
+            countInStock=0,
+            category=category_instance,
+            description=''
+        )
+
+class UpdateProductView(generics.UpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+class UploadImageView(generics.CreateAPIView):
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        product_id = data['product_id']
+        
+        try:
+            product = Product.objects.get(id=product_id)
+        except Product.DoesNotExist:
+            return Response({'detail': 'Product not found'}, status=404)
+
+        product.main_image = request.FILES.get('image')
+        # product.image_1 = request.FILES.get('image_1', '')
+        # product.image_2 = request.FILES.get('image_2', '')
+        # product.image_3 = request.FILES.get('image_3', '')
+        # product.image_4 = request.FILES.get('image_4', '')
+        product.save()
+
+        return Response('Image was uploaded')

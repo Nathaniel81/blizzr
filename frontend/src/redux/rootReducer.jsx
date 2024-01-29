@@ -15,6 +15,10 @@ import orderDeliverReducer from './slices/orderSlices/orderDeliverSlice';
 import userListReducer from './slices/userSlices/userListSlice';
 import userDeleteReducer from './slices/userSlices/userDeleteSlice';
 import userUpdateAdminReducer from './slices/userSlices/userUpdateAdminSlice';
+import productDeleteReducer from './slices/productSlices/productDeleteSlice';
+import productUpdateReducer from './slices/productSlices/productUpdateSlice';
+import productCreateReducer from './slices/productSlices/productCreateSlice';
+
 
 const rootReducer = combineReducers({
   products: productsReducer,
@@ -32,7 +36,10 @@ const rootReducer = combineReducers({
   orderDeliver: orderDeliverReducer,
   userList: userListReducer,
   userDelete: userDeleteReducer,
-  userUpdateAdmin: userUpdateAdminReducer
+  userUpdateAdmin: userUpdateAdminReducer,
+  productDelete: productDeleteReducer,
+  productUpdate: productUpdateReducer,
+  productCreate: productCreateReducer
 });
 
 export default rootReducer;
