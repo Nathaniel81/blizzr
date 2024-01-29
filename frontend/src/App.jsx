@@ -14,6 +14,7 @@ import OrderPage from "./Pages/OrderPage";
 import ProfilePage from "./Pages/ProfilePage";
 import RegisterPage from "./Pages/RegisterPage";
 import UserListPage from "./Pages/UserListPage";
+import UserEditPage from "./Pages/UserEditPage";
 
 const App = () => {
   return (
@@ -31,7 +32,9 @@ const App = () => {
           <Route path="/profile" Component={ProfilePage} />
           <Route path="/register" Component={RegisterPage} />
           <Route path="/login" Component={LoginPage} />
+
           <Route path="/admin/users" Component={UserListPage} />
+          <Route path="/admin/user/:id/edit" Component={UserEditPage} />
         </Routes>
         <Footer />
     </Router>

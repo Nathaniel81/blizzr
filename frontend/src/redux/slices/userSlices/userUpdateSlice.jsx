@@ -4,7 +4,7 @@ const userUpdateSlice = createSlice({
   name: 'userUpdate',
   initialState: {
     loading: false,
-	success: false,
+    success: false,
     error: null,
   },
   reducers: {
@@ -22,6 +22,7 @@ const userUpdateSlice = createSlice({
     },
 	userUpdateReset: (state) => {
 		state.success = false;
+    state.error = null;
 	}
   },
 });

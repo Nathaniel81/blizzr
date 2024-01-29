@@ -7,6 +7,7 @@ import { orderUserListReset } from "../slices/orderSlices/orderUserListSlice";
 import { userRegisterRequest, userRegisterSuccess, userRegisterFailure } from "../slices/userSlices/userRegisterSlice";
 import { userListRequest, userListSuccess, userListFailure } from "../slices/userSlices/userListSlice";
 import { userDeleteRequest, userDeleteSuccess, userDeleteFailure } from "../slices/userSlices/userDeleteSlice";
+import { userUpdateAdminRequest, userUpdateAdminSuccess, userUpdateAdminFailure, userUpdateAdminReset } from "../slices/userSlices/userUpdateAdminSlice";
 import axios from "axios";
 
 
@@ -180,5 +181,40 @@ export const deleteUser = (id) => async (dispatch, getState) => {
 
     } catch (error) {
         dispatch(userDeleteFailure(error))
+    }
+}
+
+
+export const updateUser = (userUpdate) => async (dispatch, getState) => {
+    try {
+        dispatch(userUpdateAdminRequest())
+
+		const {
+            userInfo: { user },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user.token}`
+            }
+        }
+
+        const { data } = await axios.put(
+            `/api/users/update/${userUpdate.id}/`,
+            userUpdate,
+            config
+        )
+
+        dispatch(userUpdateAdminSuccess(data))
+
+        // dispatch({
+        //     type: USER_DETAILS_SUCCESS,
+        //     payload: data
+        // })
+
+
+    } catch (error) {
+        dispatch(userUpdateAdminFailure(error))
     }
 }

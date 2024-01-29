@@ -14,6 +14,7 @@ import userRegisterReducer from './slices/userSlices/userRegisterSlice';
 import orderDeliverReducer from './slices/orderSlices/orderDeliverSlice';
 import userListReducer from './slices/userSlices/userListSlice';
 import userDeleteReducer from './slices/userSlices/userDeleteSlice';
+import userUpdateAdminReducer from './slices/userSlices/userUpdateAdminSlice';
 
 const rootReducer = combineReducers({
   products: productsReducer,
@@ -30,7 +31,8 @@ const rootReducer = combineReducers({
   userRegister: userRegisterReducer,
   orderDeliver: orderDeliverReducer,
   userList: userListReducer,
-  userDelete: userDeleteReducer
+  userDelete: userDeleteReducer,
+  userUpdateAdmin: userUpdateAdminReducer
 });
 
 export default rootReducer;
