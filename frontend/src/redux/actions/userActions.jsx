@@ -5,6 +5,8 @@ import { userLogout } from "../slices/userSlices/userInfoSlice";
 import { userDetailReset } from "../slices/userSlices/userDetailsSlice";
 import { orderUserListReset } from "../slices/orderSlices/orderUserListSlice";
 import { userRegisterRequest, userRegisterSuccess, userRegisterFailure } from "../slices/userSlices/userRegisterSlice";
+import { userListRequest, userListSuccess, userListFailure } from "../slices/userSlices/userListSlice";
+import { userDeleteRequest, userDeleteSuccess, userDeleteFailure } from "../slices/userSlices/userDeleteSlice";
 import axios from "axios";
 
 
@@ -124,3 +126,59 @@ export const fetchUserDetails = (id) => async (dispatch, getState) => {
 		dispatch(userUpdateFailure(error));
 	}
   };
+
+  export const listUsers = () => async (dispatch, getState) => {
+    try {
+        dispatch(userListRequest())
+
+		const {
+            userInfo: { user },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user.token}`
+            }
+        }
+
+        const { data } = await axios.get(
+            `/api/users/`,
+            config
+        )
+
+        dispatch(userListSuccess(data));
+
+
+    } catch (error) {
+        dispatch(userListFailure(error))
+    }
+}
+
+export const deleteUser = (id) => async (dispatch, getState) => {
+    try {
+        dispatch(userDeleteRequest())
+
+		const {
+            userInfo: { user },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user.token}`
+            }
+        }
+
+        const { data } = await axios.delete(
+            `/api/users/delete/${id}/`,
+            config
+        )
+
+        dispatch(userDeleteSuccess(data))
+
+
+    } catch (error) {
+        dispatch(userDeleteFailure(error))
+    }
+}

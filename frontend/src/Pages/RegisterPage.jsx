@@ -23,7 +23,6 @@ const RegisterPage = () => {
   }
   const query = useQuery()
   const redirect = query.get('redirect')
-  console.log(redirect)
 
   const submitHandler = (e) => {
 		e.preventDefault();

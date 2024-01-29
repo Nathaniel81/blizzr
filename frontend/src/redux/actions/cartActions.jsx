@@ -21,6 +21,7 @@ import axios from "axios";
             countInStock: data.countInStock,
             qty
 		}));
+		
 		localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
 	} catch (error) {
 		dispatch(cartAddItemFailure(error));

@@ -100,6 +100,20 @@ const Header = () => {
                   </Link>
                     {/* <a onClick={toggleTheme}>Light</a> */}
                 </li>
+                {user && user.isAdmin && (
+                  <li>
+                    <details>
+                      <summary>
+                        Admin
+                      </summary>
+                      <ul className="p-2 bg-base-100 rounded-t-none" onClick={handleClick}>
+                        <li><Link to="/admin/users">Users</Link></li>
+                        <li><Link to="">Products</Link></li>
+                        <li><Link to="">Orders</Link></li>
+                      </ul>
+                    </details>
+                  </li>
+                )}
                 {user ? (
                   <li onClick={logoutHandler} ><Link onClick={handleClick}>Logout</Link></li>
                 ):(

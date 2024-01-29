@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import Message from '../Components/Message'
 import CheckoutSteps from '../Components/CheckoutSteps'
 import { createOrder } from '../redux/actions/orderActions'
-import { saveOrderValues } from '../redux/slices/cartSlices/addToCartSlice';
-// import { orderCreateReset } from '../redux/slices/orderSlices/orderCreateSlice'
 /*eslint-disable*/
 const PlaceorderPage = () => {
     const dispatch = useDispatch()
@@ -17,24 +15,23 @@ const PlaceorderPage = () => {
 
 	const cart = useSelector(state => state.cart)
 
-	const itemsPrice = cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2)
-	const shippingPrice = (itemsPrice > 100 ? 0 : 10).toFixed(2)
-	const taxPrice = Number((0.082) * itemsPrice).toFixed(2)
-	const totalPrice = (Number(itemsPrice) + Number(shippingPrice) + Number(taxPrice)).toFixed(2)
+	// const itemsPrice = cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2)
+	// const shippingPrice = (itemsPrice > 100 ? 0 : 10).toFixed(2)
+	// const taxPrice = Number((0.082) * itemsPrice).toFixed(2)
+	// const totalPrice = (Number(itemsPrice) + Number(shippingPrice) + Number(taxPrice)).toFixed(2)
 
-	const updatedCart = {
-		itemsPrice,
-		shippingPrice,
-		taxPrice,
-		totalPrice
-    };
+	// const updatedCart = {
+	// 	itemsPrice,
+	// 	shippingPrice,
+	// 	taxPrice,
+	// 	totalPrice
+    // };
 
 	useEffect(() => {
         if (!cart.paymentMethod) {
             navigate('/payment')
         }
         if (success) {
-			console.log('Order Created', error)
             navigate(`/order/${order.id}`)
         }
     }, [order, dispatch, success, navigate, cart, error])

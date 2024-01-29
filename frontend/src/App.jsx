@@ -1,6 +1,3 @@
-// /* eslint-disable */
-// import { useEffect, useState } from "react"
-
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -16,6 +13,7 @@ import PlaceorderPage from "./Pages/PlaceorderPage";
 import OrderPage from "./Pages/OrderPage";
 import ProfilePage from "./Pages/ProfilePage";
 import RegisterPage from "./Pages/RegisterPage";
+import UserListPage from "./Pages/UserListPage";
 
 const App = () => {
   return (
@@ -33,6 +31,7 @@ const App = () => {
           <Route path="/profile" Component={ProfilePage} />
           <Route path="/register" Component={RegisterPage} />
           <Route path="/login" Component={LoginPage} />
+          <Route path="/admin/users" Component={UserListPage} />
         </Routes>
         <Footer />
     </Router>

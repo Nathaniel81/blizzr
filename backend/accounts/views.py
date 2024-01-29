@@ -50,3 +50,12 @@ class GetAllUsers(generics.ListAPIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+class DeleteUserView(generics.DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response('User was deleted')

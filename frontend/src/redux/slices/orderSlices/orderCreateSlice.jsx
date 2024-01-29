@@ -5,7 +5,7 @@ const orderCreateSlice = createSlice({
   initialState: {
     loading: false,
     success: false,
-     order: {},
+    order: {},
     error: null,
   },
   reducers: {
