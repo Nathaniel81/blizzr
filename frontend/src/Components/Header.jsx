@@ -37,7 +37,7 @@ const Header = () => {
   useEffect(() => {
     dispatch(saveOrderValues())
     document.querySelector('html').setAttribute('data-theme', theme);
-  }, [theme, dispatch]);
+  }, [theme, dispatch, cartItems]);
   return (
 	<>
     <div className="navbar fixed bg-base-100 px-16 mx-auto z-10 top-0">
