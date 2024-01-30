@@ -31,6 +31,7 @@ import {
     orderListFailure 
 } from "../slices/orderSlices/orderListSlice";
 
+
 export const createOrder = (order) => async (dispatch, getState) => {
 	try {
 		dispatch(orderCreateStart());
@@ -55,7 +56,11 @@ export const createOrder = (order) => async (dispatch, getState) => {
 		dispatch(cartClearItems())
 		localStorage.removeItem('cartItems')
 	} catch (error) {
-		dispatch(orderCreateFailure(error));
+		dispatch(orderCreateFailure(
+            error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        ));
 	}
   };
 
@@ -81,7 +86,11 @@ export const createOrder = (order) => async (dispatch, getState) => {
 		dispatch(orderDetailsSuccess(data));
 		
 	} catch (error) {
-		dispatch(orderDetailsFailure())
+		dispatch(orderDetailsFailure(
+            error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        ))
 	}
   };
 
@@ -109,7 +118,11 @@ export const createOrder = (order) => async (dispatch, getState) => {
         dispatch(orderPaySuccess(data))
 
     } catch (error) {
-        dispatch(orderPayFailure())
+        dispatch(orderPayFailure(
+            error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        ))
     }
 }
 
@@ -136,7 +149,11 @@ export const listUserOrders = () => async (dispatch, getState) => {
         dispatch(orderUserListSuccess(data))
 
     } catch (error) {
-        dispatch(orderUserListFailure())
+        dispatch(orderUserListFailure(
+            error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        ))
     }
 }
 
@@ -164,11 +181,11 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
         dispatch(orderDeliverSuccess(data))
 
     } catch (error) {
-        dispatch(orderDeliverFailure({
-            payload: error.response && error.response.data.detail
+        dispatch(orderDeliverFailure(
+            error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
-        }))
+        ))
     }
 }
 
@@ -195,10 +212,10 @@ export const listOrders = () => async (dispatch, getState) => {
         dispatch(orderListSuccess(data))
 
     } catch (error) {
-        dispatch(orderListFailure({
-            payload: error.response && error.response.data.detail
+        dispatch(orderListFailure(
+            error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
-        }))
+        ))
     }
 }

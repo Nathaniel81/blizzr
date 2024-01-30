@@ -13,7 +13,10 @@ import axios from 'axios'
 		const { data } = await axios.get(`/api/products${keyword}`)
 		dispatch(fetchProductsSuccess(data));
 	} catch (error) {
-		dispatch(fetchProductsFailure(error));
+		dispatch(fetchProductsFailure(
+            error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,));
 	}
   };
 
@@ -23,7 +26,10 @@ import axios from 'axios'
 		const { data } = await axios.get(`/api/products/detail/${id}`)
 		dispatch(fetchProductDetailSuccess(data));
 	} catch (error) {
-		dispatch(fetchProductDetailFailure(error));
+		dispatch(fetchProductDetailFailure(
+            error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,));
 	}
   };
 
@@ -47,7 +53,10 @@ import axios from 'axios'
 			)
 		dispatch(createReviewSuccess(data));
 	} catch (error) {
-		dispatch(createReviewFailure(error));
+		dispatch(createReviewFailure(
+            error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,));
 	}
   };
 
@@ -75,7 +84,10 @@ import axios from 'axios'
 
 
     } catch (error) {
-        dispatch(productDeleteFailure(error))
+        dispatch(productDeleteFailure(
+            error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,))
     }
 }
 
@@ -105,7 +117,10 @@ export const updateProduct = (product) => async (dispatch, getState) => {
 
 
     } catch (error) {
-        dispatch(productUpdateFailure(error))
+        dispatch(productUpdateFailure(
+            error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,))
     }
 }
 
@@ -133,6 +148,10 @@ export const createProduct = () => async (dispatch, getState) => {
 
 
     } catch (error) {
-        dispatch(productCreateFailure(error))
+        dispatch(productCreateFailure(
+            error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        ))
     }
 }

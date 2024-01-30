@@ -24,7 +24,11 @@ import axios from "axios";
 		
 		localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
 	} catch (error) {
-		dispatch(cartAddItemFailure(error));
+		dispatch(cartAddItemFailure(
+			error.response && error.response.data.detail
+			? error.response.data.detail
+			: error.message,
+		));
 	}
   };
 

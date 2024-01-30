@@ -4,25 +4,23 @@ const productReviewCreateSlice = createSlice({
   name: 'productReviewCreate',
   initialState: {
     loading: false,
-    success: null,
+    success: false,
     error: null,
   },
   reducers: {
     createReviewStart: (state) => {
       state.loading = true;
     },
-    createReviewSuccess: (state, action) => {
+    createReviewSuccess: (state) => {
       state.loading = false;
-      state.success = action.payload;
-      state.error = null;
+      state.success = true;
     },
     createReviewFailure: (state, action) => {
       state.loading = false;
-      state.error = action.payload.response.data.detail;
+      state.error = action.payload;
     },
 	resetProductReview: (state) => {
-      state.loading = false;
-      state.success = null;
+      state.success = false;
       state.error = null;
 	}
   },

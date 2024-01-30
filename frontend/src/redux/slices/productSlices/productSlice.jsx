@@ -23,7 +23,7 @@ const productsSlice = createSlice({
     fetchProductsFailure: (state, action) => {
       state.loading = false;
       state.products = null;
-      state.error = action.payload.message;
+      state.error = action.payload;
     },
   },
 });

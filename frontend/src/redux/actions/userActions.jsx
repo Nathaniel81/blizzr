@@ -26,7 +26,11 @@ export const fetchUserInfo = (username, password) => async (dispatch) => {
 		dispatch(userLoginSuccess(data));
 		localStorage.setItem('userInfo', JSON.stringify(data))
 	} catch (error) {
-		dispatch(userLoginFailure(error));
+		dispatch(userLoginFailure(
+            error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+        ));
 	}
   };
 
@@ -63,11 +67,11 @@ export const register = (username, email, password, password_confirm) => async (
 		localStorage.setItem('userInfo', JSON.stringify(data))
 
     } catch (error) {
-        dispatch(userRegisterFailure({
-            payload: error.response && error.response.data.detail
+        dispatch(userRegisterFailure(
+            error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
-        }))
+        ))
     }
 }
 
@@ -93,11 +97,11 @@ export const fetchUserDetails = (id) => async (dispatch, getState) => {
 	// 	dispatch(userDetailFailure(error));
 	}
 	catch (error) {
-        dispatch(userDetailFailure({
-            payload: error.response && error.response.data.detail
+        dispatch(userDetailFailure(
+            error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
-        }))
+        ))
     }
   };
 
@@ -124,7 +128,11 @@ export const fetchUserDetails = (id) => async (dispatch, getState) => {
 		localStorage.setItem('userInfo', JSON.stringify(data))
 
 	} catch (error) {
-		dispatch(userUpdateFailure(error));
+		dispatch(userUpdateFailure(
+            error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+        ));
 	}
   };
 
@@ -152,7 +160,11 @@ export const fetchUserDetails = (id) => async (dispatch, getState) => {
 
 
     } catch (error) {
-        dispatch(userListFailure(error))
+        dispatch(userListFailure(
+            error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+        ))
     }
 }
 
@@ -180,7 +192,11 @@ export const deleteUser = (id) => async (dispatch, getState) => {
 
 
     } catch (error) {
-        dispatch(userDeleteFailure(error))
+        dispatch(userDeleteFailure(
+            error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+        ))
     }
 }
 
@@ -215,6 +231,10 @@ export const updateUser = (userUpdate) => async (dispatch, getState) => {
 
 
     } catch (error) {
-        dispatch(userUpdateAdminFailure(error))
+        dispatch(userUpdateAdminFailure(
+            error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+        ))
     }
 }

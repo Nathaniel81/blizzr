@@ -19,7 +19,7 @@ const ProductListPage = () => {
   // let queryString = searchParams.toString();
   const location = useLocation();
   let queryString = location.search;
-  const noItemsFound = !loading && !error && products.length === 0;
+  const noItemsFound = products && !loading && !error && products.length === 0;
 
   useEffect(() => {
       dispatch(fetchProducts(queryString));
@@ -48,9 +48,6 @@ const ProductListPage = () => {
       </>
         )
       )
-      // (
-        
-      // ) 
     )
   );
 };
