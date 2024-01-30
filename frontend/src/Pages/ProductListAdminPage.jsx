@@ -15,7 +15,7 @@ const ProductListAdminPage = () => {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	const location = useLocation();
-	let queryString = location.search;
+	let queryString = location.search || "";
 
 	const userLogin = useSelector(state => state.userInfo)
 	const { user } = userLogin
@@ -41,6 +41,7 @@ const ProductListAdminPage = () => {
 
 	useEffect(() => {
         dispatch(productCreateReset())
+		dispatch(fetchProducts(queryString))
 
         if (user && !user.isAdmin) {
             navigate('/login')
@@ -49,12 +50,12 @@ const ProductListAdminPage = () => {
         if (successCreate) {
             navigate(`/admin/product/${createdProduct.id}/edit`)
         } 
-		if (successDelete){
-            dispatch(fetchProducts())
+		if (successDelete || queryString){
+            dispatch(fetchProducts(queryString))
 			dispatch(productDeleteReset())
         }
 
-    }, [dispatch, successDelete, navigate, successCreate, createdProduct.id, user])
+    }, [dispatch, successDelete, navigate, successCreate, createdProduct.id, user, queryString])
 	return (
 		<div className="mx-auto px-16 mt-28 overflow-x-auto">
 		  <div className='flex items-center'>

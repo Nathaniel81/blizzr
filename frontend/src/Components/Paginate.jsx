@@ -1,8 +1,7 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function Paginate({ pages, page, keyword = '', isAdmin = false }) {
-  const location = useLocation();
 
   if (keyword) {
     keyword = keyword.split('?keyword=')[1].split('&')[0];
@@ -16,10 +15,10 @@ function Paginate({ pages, page, keyword = '', isAdmin = false }) {
             <div key={x + 1} className="page-item">
               <Link
                 to={{
-                  pathname: location.pathname,
+                  // pathname: location.pathname,
                   search: !isAdmin
                     ? `?keyword=${keyword}&page=${x + 1}`
-                    : `/admin/productlist/?keyword=${keyword}&page=${x + 1}`,
+                    : `?keyword=${keyword}&page=${x + 1}`,
                 }}
                 className={`${
                   x + 1 === page
@@ -40,7 +39,7 @@ Paginate.propTypes = {
 	page: PropTypes.string,
   pages: PropTypes.string,
   keyword: PropTypes.string,
-  isAdmin: PropTypes.string
+  isAdmin: PropTypes.boolean
 
 };
 
