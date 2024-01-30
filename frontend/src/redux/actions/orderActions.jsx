@@ -25,6 +25,11 @@ import {
     orderDeliverSuccess, 
     orderDeliverFailure 
 } from "../slices/orderSlices/orderDeliverSlice";
+import { 
+    orderListRequest, 
+    orderListSuccess, 
+    orderListFailure 
+} from "../slices/orderSlices/orderListSlice";
 
 export const createOrder = (order) => async (dispatch, getState) => {
 	try {
@@ -151,7 +156,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
         }
 
         const { data } = await axios.put(
-            `http://127.0.0.1:8000/api/orders/${order.id}/deliver`,
+            `/api/orders/${order.id}/deliver`,
             {},
             config
         )
@@ -160,6 +165,37 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
 
     } catch (error) {
         dispatch(orderDeliverFailure({
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        }))
+    }
+}
+
+export const listOrders = () => async (dispatch, getState) => {
+    try {
+        dispatch(orderListRequest())
+
+        const {
+            userInfo: { user },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user.token}`
+            }
+        }
+
+        const { data } = await axios.get(
+            `/api/orders/`,
+            config
+        )
+
+        dispatch(orderListSuccess(data))
+
+    } catch (error) {
+        dispatch(orderListFailure({
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,

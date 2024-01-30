@@ -105,3 +105,8 @@ class UpdateOrderToDeliverdView(generics.UpdateAPIView):
         order.deliveredAt = datetime.now()
         order.save()
         return Response('Order was delivered')
+
+class GetOrdersView(generics.ListAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
