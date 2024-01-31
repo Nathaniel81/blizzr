@@ -30,6 +30,7 @@ import {
     orderListSuccess, 
     orderListFailure 
 } from "../slices/orderSlices/orderListSlice";
+import { clearOrderValues } from "../slices/cartSlices/addToCartSlice";
 
 
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -54,6 +55,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
 
 		dispatch(orderCreateSuccess(data));
 		dispatch(cartClearItems())
+        dispatch(clearOrderValues())
 		localStorage.removeItem('cartItems')
 	} catch (error) {
 		dispatch(orderCreateFailure(

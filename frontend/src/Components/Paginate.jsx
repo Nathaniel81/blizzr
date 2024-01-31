@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+
 function Paginate({ pages, page, keyword = '', isAdmin = false }) {
 
   if (keyword) {
@@ -36,11 +37,10 @@ function Paginate({ pages, page, keyword = '', isAdmin = false }) {
 }
 
 Paginate.propTypes = {
-	page: PropTypes.string,
-  pages: PropTypes.string,
+  page: PropTypes.number,
+  pages: PropTypes.number,
   keyword: PropTypes.string,
-  isAdmin: PropTypes.boolean
-
+  isAdmin: PropTypes.bool
 };
 
 export default Paginate;

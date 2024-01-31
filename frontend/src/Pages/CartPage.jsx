@@ -5,9 +5,9 @@ import Message from '../Components/Message';
 import { addToCart, removeFromCart } from '../redux/actions/cartActions';
 import { saveOrderValues } from '../redux/slices/cartSlices/addToCartSlice';
 
+
 const ShoppingCart = () => {
-  const orderValues = useSelector(state => state.cart.orderValues)
-  
+  // const orderValues = useSelector(state => state.cart.orderValues)
   const cart = useSelector(state => state.cart)
   const { cartItems } = cart
   const userLogin = useSelector(state => state.userInfo);
@@ -23,7 +23,7 @@ const ShoppingCart = () => {
   const dispatch = useDispatch();
   const qty = Number(query.get('qty'))
   // const qty = Number(new URLSearchParams(window.location.search).get('qty'));
-  
+
   useEffect(() => {
     if (id) {
       dispatch(addToCart(id, qty));
@@ -34,28 +34,29 @@ const ShoppingCart = () => {
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id))
   }
+
   const checkoutHandler = () => {
-		if (!user) {
-			navigate('/login?redirect=shipping')
-		} else {
-			navigate('/shipping')
+    if (!user) {
+      navigate('/login?redirect=shipping')
+    } else {
+      navigate('/shipping')
       dispatch(saveOrderValues())
-		}
+    }
   }
 
   return (
-    <div className="mx-auto md:mt-20 mt-36 px-16">
-              {/* <button onClick={() => navigate(-1)} className="btn btn-ghost mb-8">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-          </svg>
-            Go Back
-        </button> */}
-      <h1 className="text-2xl mb-4 py-5 font-bold">SHOPPING CART</h1>
-      <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+    <div className="mx-auto md:mt-20 mt-16 px-16">
+      <button onClick={() => navigate(-1)} className="btn btn-ghost md:mb-8">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+          Go Back
+      </button>
+      <h1 className="text-3xl mb-4 py-5 font-bold">SHOPPING CART</h1>
+      <div className="flex flex-col md:flex-row justify-between items-start gap-8">
         <div className="md:w-[65%] w-full">
           {cartItems.length === 0 ? (
-            <Message color={'alert-info'}>Your cart is empty <Link to='/' className='hover:underline'>  Go Back</Link></Message>
+            <Message color={'bg-blue-100'}>Your cart is empty <Link to='/' className='hover:underline'>  Go Back</Link></Message>
           ) : ( 
             <ul className="list-none p-0">
               {cartItems.map((item) => (
@@ -72,16 +73,15 @@ const ShoppingCart = () => {
                     </div>
                     <div className="w-full sm:w-1/6 mb-2 sm:mb-0">
                       <select
-                        value={item.qty}
-                        onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value)))}
-                        className="block w-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-blue-500"
+                      value={item.qty}
+                      onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value)))}
+                      className="select select-sm select-bordered w-full"
                       >
                       {[...Array(Math.abs(item.countInStock)).keys()].map((x) => (
                         <option key={x + 1} value={x + 1}>
                           {x + 1}
                         </option>
                       ))}
-
                       </select>
                     </div>
                     <div className="w-full sm:w-1/12 mb-2 sm:mb-0 flex items-center justify-end">
@@ -102,16 +102,16 @@ const ShoppingCart = () => {
           )}
         </div>
         <div className="md:w-[30%] w-full flex items-center justify-center">
-          <div className="p-6 bg-white rounded shadow-md w-full">
+          <div className="p-6 w-full">
             <ul className="list-none p-0">
-              <li className="mb-4 border-b border-gray-200">
-                <h2 className="text-lg font-semibold">SUBTOTAL ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) ITEMS</h2>
-                <span>${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</span>
+              <li className="mb-4 border-b border-gray-200 py-3">
+                <h2 className="text-xl font-semibold mb-2">SUBTOTAL ({cartItems.reduce((acc, item) => acc + item.qty, 0)} ITEMS)</h2>
+                <span className="text-lg font-semibold">${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</span>
               </li>
               <li className="text-center my-3">
                 <button
                   type='button'
-                  className='btn w-full bg-blue-500 hover:bg-blue-700 text-white text-[17px] rounded focus:outline-none focus:shadow-outline'
+                  className="w-full btn"
                   disabled={cartItems.length === 0}
                   onClick={checkoutHandler}
                 >

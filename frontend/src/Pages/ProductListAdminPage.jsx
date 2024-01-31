@@ -83,7 +83,7 @@ const ProductListAdminPage = () => {
 			<Message variant='danger'>{error}</Message>
 		  ) : (
 			<div>
-			  <table className='table'>
+			  <table className='table table-zebra'>
 				<thead>
 				  <tr>
 					<th>ID</th>

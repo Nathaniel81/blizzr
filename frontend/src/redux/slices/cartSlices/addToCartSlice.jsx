@@ -69,6 +69,9 @@ const addToCartSlice = createSlice({
           totalPrice
         }
       }
+    },
+    clearOrderValues: (state) => {
+      state.orderValues = null;
     }
   },
 });
@@ -81,6 +84,7 @@ export const {
   cartSaveShippingAddress,
   cartSavePaymentMethod,
   cartClearItems,
-  saveOrderValues
+  saveOrderValues,
+  clearOrderValues
 } = addToCartSlice.actions;
 export default addToCartSlice.reducer;

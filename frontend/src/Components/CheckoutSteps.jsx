@@ -1,9 +1,10 @@
-/*eslint-disable*/
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+
 
 const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
   return (
-    <div className="flex items-center justify-center mt-32">
+    <div className="md:flex hidden items-center justify-center mt-20 ">
       <ul className="steps text-md w-2/5 mx-auto">
         <li className={`step ${step1 ? 'step-primary' : ''}`}>
           {step1 ? (
@@ -36,6 +37,13 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
       </ul>
     </div>
   );
+};
+
+CheckoutSteps.propTypes = {
+  step1: PropTypes.string,
+  step2: PropTypes.string,
+  step3: PropTypes.string,
+  step4: PropTypes.string
 };
 
 export default CheckoutSteps;

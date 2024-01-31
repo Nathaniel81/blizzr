@@ -24,21 +24,22 @@ const ProductListPage = () => {
   }, [dispatch, queryString]);
 
   return (
-    <div>
+    <div className='min-h-screen'>
       {loading ? (<Loader />)
         : error ? (
-          <div className='mt-32 py-10 px-16 mx-auto'>
-            <Message color={'alert-error'}>{error}</Message>
+          <div className='mt-32 px-16 mx-auto'>
+            <Message color={'bg-red-100'}>{error}</Message>
           </div>
         )
         : (
           noItemsFound ? (
             <div className='mt-32 py-10 px-16 mx-auto'>
-              <Message color={'alert-error'}>No Items Found</Message>
+              <Message color={'bg-red-100'}>No Items Found</Message>
             </div>
           )
           : (
             <div>
+              {/* <h1 className='mt-16 px-16 mx-auto'>LATEST PRODUCTS</h1> */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 px-4 md:px-8 lg:px-16 mx-auto mt-32">
                 {products && products.map((product) => (
                   <div key={product.id} className="mb-8">
@@ -46,7 +47,13 @@ const ProductListPage = () => {
                   </div>
                 ))}
               </div>
-              <div className='px-16 mx-auto'><Paginate page={page} pages={pages} keyword={queryString} /></div>
+              <div className='px-16 mx-auto'>
+                <Paginate 
+                page={page} 
+                pages={pages} 
+                keyword={queryString} 
+                />
+              </div>
             </div>
           )
         )

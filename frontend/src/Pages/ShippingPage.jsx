@@ -8,7 +8,12 @@ import CheckoutSteps from '../Components/CheckoutSteps';
 const ShippingScreen = () => {
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart || {};
-  const { address: initialAddress, city: initialCity, postalCode: initialPostalCode, country: initialCountry } = shippingAddress || {};
+  const { 
+    address: initialAddress, 
+    city: initialCity, 
+    postalCode: initialPostalCode, 
+    country: initialCountry 
+  } = shippingAddress || {};
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,71 +32,71 @@ const ShippingScreen = () => {
   return (
     <>
       <CheckoutSteps step1={'step-primary'} step2={'step-primary'}></CheckoutSteps>
-      <h1 className="text-2xl font-bold pb-3 max-w-md mx-auto mt-14">SHIPPING</h1>
-      <div className='max-w-md mx-auto p-6 card rounded shadow-md'>
-      <form onSubmit={submitHandler} className="max-w-md">
-        <div className="mb-4">
-          <label htmlFor="address" className="block text-sm font-medium text-gray-700">
-            Address
-          </label>
+      <h1 className="text-2xl font-bold pb-3 max-w-md mx-auto md:mt-14 mt-20">SHIPPING</h1>
+      <div className='max-w-md mb-5 mx-auto p-6 card rounded shadow-md'>
+      <form onSubmit={submitHandler}>
+        <div className="mb-4 form-control w-full">
+          <div className="label">
+            <span className="label-text font-medium">Address</span>
+          </div>
           <input
             type="text"
             id="address"
             placeholder="Enter address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            className="w-full p-2 border rounded focus:outline-none focus:border-blue-500 input input-bordered"
+            className="input input-bordered w-full"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label htmlFor="city" className="block text-sm font-medium text-gray-700">
-            City
-          </label>
+          <div className="label">
+            <span className="label-text font-medium">City</span>
+          </div>
           <input
             type="text"
             id="city"
             placeholder="Enter city"
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="input input-bordered w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+            className="input input-bordered w-full"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label htmlFor="postalCode" className="block text-sm font-medium text-gray-700">
-            Postal Code
-          </label>
+          <div className="label">
+            <span className="label-text font-medium">Postal Code</span>
+          </div>
           <input
             type="text"
             id="postalCode"
             placeholder="Enter postal code"
             value={postalCode}
             onChange={(e) => setPostalCode(e.target.value)}
-            className="input input-bordered w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+            className="input input-bordered w-full"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-            Country
-          </label>
+          <div className="label">
+            <span className="label-text font-medium">Country</span>
+          </div>
           <input
             type="text"
             id="country"
             placeholder="Enter country"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-            className="input input-bordered w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+            className="input input-bordered w-full"
             required
           />
         </div>
 
-        <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-          Continue
+        <button type="submit" className="w-full btn">
+          CONTINUE
         </button>
       </form>
       </div>

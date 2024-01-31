@@ -10,7 +10,7 @@ const Ratings = ({ value, text, edit, setRating }) => {
   return (
     <div className='flex items-center justify-between'>
       <Rating
-        key={Number(value)}
+        key={value}
         count={5}
         value={value || 0}
         size={24}
@@ -25,7 +25,7 @@ const Ratings = ({ value, text, edit, setRating }) => {
 }
 
 Ratings.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.number,
   text: PropTypes.string,
   edit: PropTypes.bool,
   setRating: PropTypes.func,

@@ -26,7 +26,7 @@ const Products = ({ product }) => {
         <div className="card-body p-4">
           <h2 className="card-title text-lg font-bold mb-2">{product.name}</h2>
           <Ratings
-          value={product.rating} 
+          value={parseInt(product.rating, 10)}
           edit={false}
           text={`${product.numReviews} reviews`}
           />
