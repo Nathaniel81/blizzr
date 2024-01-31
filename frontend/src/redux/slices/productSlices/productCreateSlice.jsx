@@ -5,7 +5,7 @@ const productCreateSlice = createSlice({
   initialState: {
     loading: false,
     success: false,
-	product: {},
+    product: {},
     error: null
   },
   reducers: {

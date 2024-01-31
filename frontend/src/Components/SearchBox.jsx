@@ -6,7 +6,6 @@ const SearchBox = () => {
   const navigate = useNavigate();
   const location = useLocation();
   let path = location.pathname;
-  console.log(path)
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -37,18 +36,16 @@ const SearchBox = () => {
   };
 
   return (
-    <>
       <form onSubmit={submitHandler}>
         <div className="form-control">
           <input
             type="text"
             placeholder="Search"
-            className="input input-bordered w-24 md:w-auto"
+            className="input input-bordered w-full rounded-full md:w-[400px] input-md max-w-xs h-10"
             onChange={changeHandler}
           />
         </div>
       </form>
-    </>
   );
 };
 

@@ -45,11 +45,12 @@ const ProductEditPage = () => {
         }))
     }
 
-	const uploadFileHandler = async (e) => {
+	const uploadFileHandler = async (e, imgStr) => {
         const file = e.target.files[0]
         const formData = new FormData()
 
-        formData.append('image', file)
+		console.log(imgStr)
+        formData.append(imgStr, file)
         formData.append('product_id', id)
 
         setUploading(true)
@@ -71,6 +72,7 @@ const ProductEditPage = () => {
             setUploading(false)
         }
     }
+	
 
 	useEffect(() => {
         if (successUpdate) {
@@ -103,7 +105,7 @@ const ProductEditPage = () => {
 		  <div className='mt-4'>
 			<h1 className='text-2xl font-bold'>Edit Product</h1>
 			{loadingUpdate && <Loader />}
-			{errorUpdate && <Message color={alert-error}>{errorUpdate}</Message>}
+			{errorUpdate && <Message color={alert-error}>{errorUpdate.payload}</Message>}
 	
 			{loading ? (
 			  <Loader />
@@ -141,22 +143,55 @@ const ProductEditPage = () => {
 	
 				<div className='mb-4'>
 				  <label htmlFor='image' className='block text-sm font-medium text-gray-600'>
-					Image
+					Main Image
 				  </label>
-				  {/* <input
-					type='text'
-					id='image'
-					placeholder='Enter image'
-					value={image}
-					onChange={(e) => setImage(e.target.value)}
-					className='mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500'
-				  /> */}
-	
 				  <input
 					type='file'
 					id='image-file'
 					label='Choose File'
-					onChange={uploadFileHandler}
+					onChange={(e) => {uploadFileHandler(e, 'main_image')}}
+					className='mt-2'
+				  />
+				  {uploading && <Loader />}
+				</div>
+
+				<div className='mb-4'>
+				  <label htmlFor='image_1' className='block text-sm font-medium text-gray-600'>
+					Image_1
+				  </label>
+				  <input
+					type='file'
+					id='image-file'
+					label='Choose File'
+					onChange={(e) => uploadFileHandler(e, 'image_1')}
+					className='mt-2'
+				  />
+				  {uploading && <Loader />}
+				</div>
+
+				<div className='mb-4'>
+				  <label htmlFor='image_2' className='block text-sm font-medium text-gray-600'>
+					Image_2
+				  </label>
+				  <input
+					type='file'
+					id='image-file'
+					label='Choose File'
+					onChange={(e) => uploadFileHandler(e, 'image_2')}
+					className='mt-2'
+				  />
+				  {uploading && <Loader />}
+				</div>
+
+				<div className='mb-4'>
+				  <label htmlFor='image_3' className='block text-sm font-medium text-gray-600'>
+					Image_3
+				  </label>
+				  <input
+					type='file'
+					id='image-file'
+					label='Choose File'
+					onChange={(e) => uploadFileHandler(e, 'image_3')}
 					className='mt-2'
 				  />
 				  {uploading && <Loader />}

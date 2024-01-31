@@ -1,10 +1,9 @@
-
 const Loader = () => {
   return (
-	<div className="text-center">
-		<span className="loading loading-spinner loading-lg"></span>
-	</div>
-  )
+    <div className="flex items-center justify-center h-screen">
+      <span className="loading loading-spinner loading-lg"></span>
+    </div>
+  );
 }
 
-export default Loader
+export default Loader;

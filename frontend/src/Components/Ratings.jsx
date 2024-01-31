@@ -1,7 +1,6 @@
-// import { useState, useEffect } from 'react';
-/*eslint-disable*/
 import PropTypes from 'prop-types';
 import Rating from 'react-rating-stars-component';
+
 
 const Ratings = ({ value, text, edit, setRating }) => {
   const handleRatingChange = (newRating) => {
@@ -11,7 +10,7 @@ const Ratings = ({ value, text, edit, setRating }) => {
   return (
     <div className='flex items-center justify-between'>
       <Rating
-        key={value}
+        key={Number(value)}
         count={5}
         value={value || 0}
         size={24}
@@ -26,9 +25,10 @@ const Ratings = ({ value, text, edit, setRating }) => {
 }
 
 Ratings.propTypes = {
-	value: PropTypes.string,
+  value: PropTypes.string,
   text: PropTypes.string,
-  edit: PropTypes.string
-  };
+  edit: PropTypes.bool,
+  setRating: PropTypes.func,
+};
 
 export default Ratings

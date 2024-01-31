@@ -7,6 +7,7 @@ import SearchBox from './SearchBox';
 
 const Header = () => {
   const [theme, setTheme] = useState('light');
+
   const dispatch = useDispatch();
 
   const userLogin = useSelector(state => state.userInfo)
@@ -30,30 +31,32 @@ const Header = () => {
 
   const logoutHandler = () => {
     dispatch(logout())
-
   }
-  // const [dropdownVisible, setDropdownVisible] = useState(false);
 
   useEffect(() => {
     dispatch(saveOrderValues())
     document.querySelector('html').setAttribute('data-theme', theme);
   }, [theme, dispatch, cartItems]);
+
   return (
-	<>
-    <div className="navbar fixed bg-base-100 px-16 mx-auto z-10 top-0">
+    <div className="navbar fixed bg-base-100 md:px-16 mx-auto z-10 top-0">
       <div className="flex justify-between w-full">
-        <a className="btn btn-ghost text-2xl font-extrabold px-0">BLIZZR</a>
-          <ul className="menu menu-horizontal px-1 space-x-4">
-              <li ><Link to="/">Home</Link></li>
+        <div className="flex justify-between items-center">
+          <div className="dropdown">
+            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+            </div>
+            <ul tabIndex={0} onClick={handleClick} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+              <li><Link to="/">Home</Link></li>
               <li><Link to="/products">Shop</Link></li>
               <li><Link to="/login">About</Link></li>
               <li><a>Contact</a></li>
-          </ul>
+            </ul>
+          </div>
+          <a className="md:text-2xl sm:text-xl xs:text-l font-extrabold px-1 md:px-2">BLIZZR</a>
+        </div>
           <SearchBox />
-          <div className='flex items-center justify-between gap-3'>
-            <button className="btn btn-ghost btn-circle">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-            </button>
+          <div className='flex items-center justify-between md:gap-3'>
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                 <div className="indicator">
@@ -82,7 +85,10 @@ const Header = () => {
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
-                  <img alt="Tailwind CSS Navbar component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                  <img 
+                  alt="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"  
+                  src="../../public/images/avatar.svg"
+                  />
                 </div>
               </div>
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
@@ -96,9 +102,7 @@ const Header = () => {
                 <li>
                   <Link to='/profile' className="justify-between" onClick={handleClick}>
                     Profile
-                    {/* <span className="badge">New</span> */}
                   </Link>
-                    {/* <a onClick={toggleTheme}>Light</a> */}
                 </li>
                 {user && user.isAdmin && (
                   <li>
@@ -123,9 +127,8 @@ const Header = () => {
             </div>
           </div>
         </div>
-      </div>
-  </>
-    )
+    </div>
+  )
 }
 
 export default Header
