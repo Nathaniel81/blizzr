@@ -1,18 +1,15 @@
-/*eslint-disable*/
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../Components/Loader';
 import Message from '../Components/Message';
 import { fetchUserInfo } from '../redux/actions/userActions';
-// import FormContainer from '../components/FormContainer';
-// import { login } from '../actions/userActions';
+
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-//   const [error, setError] = useState('');
-//   const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 //   const redirect = new URLSearchParams(location.search).get('redirect') || '/';
@@ -22,52 +19,54 @@ const Login = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-	  dispatch(fetchUserInfo(username, password));
+    dispatch(fetchUserInfo(username, password));
   };
 
   useEffect(() => {
-	if (user && user.token) {
-		navigate('/'); //ASTK
-	}
+    if (user && user.token) {
+      navigate('/');
+  }
 }, [navigate, user]);
 
   return (
-    <div className="max-w-md mx-auto mt-20 p-6 bg-white rounded shadow-md">
-      <h1 className="text-2xl font-semibold mb-4">Sign In</h1>
-      {error && <Message>{error}</Message>}
+    <div className="max-w-md mx-auto md:mt-28 mt-20 p-6 mb-28 card rounded shadow-md">
+      <h1 className="mb-4 text-2xl font-bold">Sign In</h1>
+      {error && <Message color={'bg-red-100'}>{error}</Message>}
       {loading && <Loader />}
       <form onSubmit={submitHandler}>
-        <div className="mb-4">
-          <label htmlFor="username" className="block text-gray-600 text-sm font-semibold mb-2">
-            Username
-          </label>
+        <div className="mb-4 form-control w-full">
+          <div className="label">
+            <span className="label-text font-medium">Username</span>
+          </div>
           <input
             type="text"
             id="username"
-            className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+            className="input input-bordered w-full"
             placeholder="Enter Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-600 text-sm font-semibold mb-2">
-            Password
-          </label>
+        <div className="mb-4 form-control w-full">
+          <div className="label">
+            <span className="label-text font-medium">Password</span>
+          </div>
           <input
             type="password"
             id="password"
-            className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+            className="input input-bordered w-full"
             placeholder="Enter Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
 
         <button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="w-full btn"
         >
           Sign In
         </button>

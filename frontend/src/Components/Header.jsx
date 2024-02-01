@@ -74,10 +74,10 @@ const Header = () => {
                     <span className="font-bold text-lg">{cartItems.length} Item</span>
                   )}
                   <span className="text-info">Subtotal: {orderValues && (
-                   `$${orderValues.totalPrice}`
+                   `$${orderValues.subtotal}`
                   )}</span>
                   <div className="card-actions" onClick={handleClick}>
-                    <Link to='/cart' className="btn btn-primary btn-block">View cart</Link>
+                    <Link to='/cart' className="btn btn-block">View cart</Link>
                   </div>
                 </div>
               </div>

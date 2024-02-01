@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+
 const SearchBox = () => {
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
@@ -32,7 +33,8 @@ const SearchBox = () => {
   }, [keyword, navigate, path]);
 
   const changeHandler = (e) => {
-    setKeyword(e.target.value);
+    // let keyword = e.target.value;
+    setKeyword(e.target.value)
   };
 
   return (

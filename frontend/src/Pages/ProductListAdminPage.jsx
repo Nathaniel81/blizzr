@@ -10,6 +10,8 @@ import { fetchProducts, deleteProduct } from '../redux/actions/productActions'
 import { productDeleteReset } from '../redux/slices/productSlices/productDeleteSlice'
 import { createProduct } from '../redux/actions/productActions'
 import { productCreateReset } from '../redux/slices/productSlices/productCreateSlice'
+import { fetchCategories } from '../redux/actions/productActions'
+
 
 const ProductListAdminPage = () => {
 	const dispatch = useDispatch()
@@ -42,6 +44,7 @@ const ProductListAdminPage = () => {
 	useEffect(() => {
         dispatch(productCreateReset())
 		dispatch(fetchProducts(queryString))
+		dispatch(fetchCategories())
 
         if (user && !user.isAdmin) {
             navigate('/login')
@@ -97,7 +100,7 @@ const ProductListAdminPage = () => {
 	
 				<tbody>
 				  {products && products.map(product => (
-					<tr key={product.id} className='hover'>
+					<tr key={product.id}>
 					  <td className='px-4 py-2'>{product.id}</td>
 					  <td className='px-4 py-2'>{product.name}</td>
 					  <td className='px-4 py-2'>${product.price}</td>

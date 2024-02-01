@@ -5,7 +5,10 @@ import { createReviewSuccess, createReviewStart, createReviewFailure } from "../
 import { productDeleteStart, productDeleteSuccess, productDeleteFailure } from "../slices/productSlices/productDeleteSlice";
 import { productUpdateStart, productUpdateSuccess, productUpdateFailure } from "../slices/productSlices/productUpdateSlice";
 import { productCreateStart, productCreateSuccess, productCreateFailure } from "../slices/productSlices/productCreateSlice";
+import { fetchCategoriesStart, fetchCategoriesSuccess, fetchCategoriesFailure } from "../slices/productSlices/productCategoriesSlice";
+import { fetchTopProductsStart, fetchTopProductsSuccess, fetchTopProductsFailure } from "../slices/productSlices/productTopSlice";
 import axios from 'axios'
+
 
   export const fetchProducts = (keyword='') => async (dispatch) => {
 	try {
@@ -19,6 +22,22 @@ import axios from 'axios'
             : error.message,));
 	}
   };
+
+  export const listTopProducts = () => async (dispatch) => {
+    try {
+        dispatch(fetchTopProductsStart())
+
+        const { data } = await axios.get(`/api/products/top/`)
+
+        dispatch(fetchTopProductsSuccess(data))
+
+    } catch (error) {
+        dispatch(fetchTopProductsFailure(
+            error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,));
+	}
+}
 
   export const fetchProductDetail = (id) => async (dispatch) => {
 	try {
@@ -155,3 +174,16 @@ export const createProduct = () => async (dispatch, getState) => {
         ))
     }
 }
+
+export const fetchCategories = () => async (dispatch) => {
+	try {
+		dispatch(fetchCategoriesStart());
+		const { data } = await axios.get(`/api/products/categories`)
+		dispatch(fetchCategoriesSuccess(data));
+	} catch (error) {
+		dispatch(fetchCategoriesFailure(
+            error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,));
+	}
+  };

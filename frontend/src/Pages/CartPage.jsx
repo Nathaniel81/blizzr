@@ -33,6 +33,7 @@ const ShoppingCart = () => {
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id))
+    dispatch(saveOrderValues())
   }
 
   const checkoutHandler = () => {

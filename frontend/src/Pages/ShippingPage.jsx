@@ -34,71 +34,67 @@ const ShippingScreen = () => {
       <CheckoutSteps step1={'step-primary'} step2={'step-primary'}></CheckoutSteps>
       <h1 className="text-2xl font-bold pb-3 max-w-md mx-auto md:mt-14 mt-20">SHIPPING</h1>
       <div className='max-w-md mb-5 mx-auto p-6 card rounded shadow-md'>
-      <form onSubmit={submitHandler}>
-        <div className="mb-4 form-control w-full">
-          <div className="label">
-            <span className="label-text font-medium">Address</span>
+        <form onSubmit={submitHandler}>
+          <div className="mb-4 form-control w-full">
+            <div className="label">
+              <span className="label-text font-medium">Address</span>
+            </div>
+            <input
+              type="text"
+              id="address"
+              placeholder="Enter address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              className="input input-bordered w-full"
+              required
+            />
           </div>
-          <input
-            type="text"
-            id="address"
-            placeholder="Enter address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            className="input input-bordered w-full"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <div className="label">
-            <span className="label-text font-medium">City</span>
+          <div className="mb-4 form-control w-full">
+            <div className="label">
+              <span className="label-text font-medium">City</span>
+            </div>
+            <input
+              type="text"
+              id="city"
+              placeholder="Enter city"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              className="input input-bordered w-full"
+              required
+            />
           </div>
-          <input
-            type="text"
-            id="city"
-            placeholder="Enter city"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="input input-bordered w-full"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <div className="label">
-            <span className="label-text font-medium">Postal Code</span>
+          <div className="mb-4 form-control w-full">
+            <div className="label">
+              <span className="label-text font-medium">Postal Code</span>
+            </div>
+            <input
+              type="text"
+              id="postalCode"
+              placeholder="Enter postal code"
+              value={postalCode}
+              onChange={(e) => setPostalCode(e.target.value)}
+              className="input input-bordered w-full"
+              required
+            />
           </div>
-          <input
-            type="text"
-            id="postalCode"
-            placeholder="Enter postal code"
-            value={postalCode}
-            onChange={(e) => setPostalCode(e.target.value)}
-            className="input input-bordered w-full"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <div className="label">
-            <span className="label-text font-medium">Country</span>
+          <div className="mb-4 form-control w-full">
+            <div className="label">
+              <span className="label-text font-medium">Country</span>
+            </div>
+            <input
+              type="text"
+              id="country"
+              placeholder="Enter country"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              className="input input-bordered w-full"
+              required
+            />
           </div>
-          <input
-            type="text"
-            id="country"
-            placeholder="Enter country"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            className="input input-bordered w-full"
-            required
-          />
-        </div>
-
-        <button type="submit" className="w-full btn">
-          CONTINUE
-        </button>
-      </form>
+          <button type="submit" className="w-full btn">
+            CONTINUE
+          </button>
+        </form>
       </div>
     </>
   );
