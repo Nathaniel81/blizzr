@@ -12,7 +12,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
             data[k] = v
         return data
 class UserSerializer(serializers.ModelSerializer):
-    # name = serializers.SerializerMethodField(read_only=True)
     isAdmin = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = User
@@ -37,12 +36,13 @@ class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'password', 'password_confirm', 'tokens', 'token']
+        read_only_fields = ['id']
 
     def validate(self, data):
         if data['password'] != data['password_confirm']:
             raise serializers.ValidationError("Passwords do not match.")
         return data
-
+    
     def save(self, validated_data):
         validated_data.pop('password_confirm')
         user = User.objects.create(
@@ -52,6 +52,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         
+        validated_data['id'] = user.id
+
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)
         
