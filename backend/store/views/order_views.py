@@ -15,6 +15,8 @@ class AddOrderItemsView(generics.CreateAPIView):
         data = request.data
 
         orderItems = data.get('orderItems', [])
+        # print(orderItems[0])
+        # print(data)
         
 
         if not orderItems:
@@ -27,7 +29,7 @@ class AddOrderItemsView(generics.CreateAPIView):
             shippingPrice=data['shippingPrice'],
             totalPrice=data['totalPrice']
         )
-        
+
         shipping = ShippingAddress.objects.create(
             order=order,
             address=data['shippingAddress']['address'],

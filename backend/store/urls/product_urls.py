@@ -9,5 +9,7 @@ urlpatterns = [
  
     path('delete/<str:pk>/', views.DeleteProductView.as_view(), name="product-delete"),
 	path('update/<str:pk>/', views.UpdateProductView.as_view(), name="product-update"),
-	path('upload/', views.UploadImageView.as_view(), name="image-upload"), 
+	path('upload/', views.UploadImageView.as_view(), name="image-upload"),
+    path('categories/', views.CategoryListView.as_view(), name="categories"), 
+    path('top/', views.TopProductsAPIView.as_view(), name="top-products"), 
 ]

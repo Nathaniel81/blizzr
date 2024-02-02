@@ -2,9 +2,11 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 from .models import Category, Product, Review, Order, OrderItem, ShippingAddress
 from accounts.models import User
-from store.serializers import ProductSerializer, ReviewSerializer
+from store.serializers import ProductSerializer, ReviewSerializer,OrderSerializer
 from rest_framework.test import APIClient
 from django.urls import reverse
+from django.test import override_settings
+
 
 class CategoryTestCase(APITestCase):
     def setUp(self):
@@ -14,11 +16,11 @@ class CategoryTestCase(APITestCase):
     def test_category_str_method(self):
         self.assertEqual(str(self.category), 'Electronics')
 
+@override_settings(MEDIA_URL='http://testserver')
 class ProductTestCase(APITestCase):
     def setUp(self):
         self.category = Category.objects.create(name='Electronics', image='electronics-img.png')
         self.assertEqual(Category.objects.count(), 1)
-
         self.product = Product.objects.create(
             name='SmartPhone',
             main_image='smartphone-img.png',
@@ -30,9 +32,136 @@ class ProductTestCase(APITestCase):
             price=799.99,
             countInStock=50
         )
+        self.admin_user = User.objects.create_user(
+            username='admin_test', 
+            email='admin_user@email.com', 
+            password='adminpass', 
+            is_staff=True
+        )
+        self.product1 = Product.objects.create(name='Product 1', price=20)
+        self.product2 = Product.objects.create(name='Product 2', price=30)
+        self.client = APIClient()
 
     def test_product_str_method(self):
         self.assertEqual(str(self.product), 'SmartPhone')
+    
+    def test_product_list_view(self):
+        response = self.client.get(reverse('products'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['products'], ProductSerializer([self.product, self.product1, self.product2], many=True).data)
+
+    def test_product_list_view_with_search(self):
+        response = self.client.get(reverse('products'), {'keyword': 'Product 1'})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['products'], ProductSerializer([self.product1], many=True).data)
+
+    def test_product_list_view_pagination(self):
+        for i in range(10):
+            Product.objects.create(name=f'Product {i+3}', price=10)
+
+        response = self.client.get(reverse('products'), {'page': 2})
+        self.assertEqual(response.status_code, 200)
+        expected_products = Product.objects.all()[8:]
+        self.assertEqual(response.data['products'], ProductSerializer(expected_products, many=True).data)
+        self.assertEqual(response.data['page'], 2)
+        self.assertEqual(response.data['pages'], 2)
+
+    def test_product_detail_view(self):
+        url = reverse('product-detail', kwargs={'pk': self.product1.id})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        serialized_data = ProductSerializer(self.product1).data
+        self.assertEqual(response.data, serialized_data)
+    
+    def test_product_delete_view_unauthorized(self):
+        url = reverse('product-delete', kwargs={'pk': self.product1.id})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_product_delete_view_authorized(self):
+        admin_user = User.objects.create_user(username='admin', password='adminpass', is_staff=True)
+        self.client.force_authenticate(user=admin_user)
+        url = reverse('product-delete', kwargs={'pk': self.product1.id})
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        with self.assertRaises(Product.DoesNotExist):
+            Product.objects.get(id=self.product1.id)
+
+        self.assertEqual(response.data, 'Product deleted')
+        
+    def test_create_product_authorized(self):
+        self.client.force_authenticate(user=self.admin_user)
+        url = reverse('product-create')
+        data = {}
+        response = self.client.post(url, data)
+        # print(response.data) 
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        created_product = Product.objects.get(name='Sample Name')
+        self.assertEqual(created_product.category.name, 'Electronics')
+
+        category_instance = Category.objects.get(name='Electronics')
+        self.assertIsNotNone(category_instance)
+        self.assertIsNotNone(created_product)
+
+        expected_data = ProductSerializer(created_product).data
+        self.assertEqual(response.data, expected_data)
+
+    def test_create_product_unauthorized(self):
+        url = reverse('product-create')
+        data = {}
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+        with self.assertRaises(Product.DoesNotExist):
+            Product.objects.get(name='New Product')
+
+    def test_create_product_review(self):
+        url = reverse("create-review", kwargs={'pk': self.product1.id})
+        data = {
+            'rating': 5,
+            'comment': 'Loved it!'
+         }
+        self.client.force_authenticate(user=self.admin_user)
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_create_invalid_rating_product_review(self):
+        url = reverse("create-review", kwargs={'pk': self.product1.id})
+        data = {
+            'rating': 5,
+            'comment': ''
+        }
+        
+        self.client.force_authenticate(user=self.admin_user)
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    
+    def test_create_duplicate_product_review(self):
+        self.client.force_authenticate(user=self.admin_user)
+        Review.objects.create(user=self.admin_user, product=self.product1, rating=4, comment='Previous review')
+        url = reverse("create-review", kwargs={'pk': self.product1.id})
+        data = {
+            'rating': 3,
+            'comment': 'Another review',
+        }
+        response = self.client.post(url, data)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data, {'detail': 'Product already reviewed'})
+    
+    # def test_create_invalid_rating_product_review(self):
+    #     self.client.force_authenticate(user=self.admin_user)
+    #     url = reverse("create-review", kwargs={'pk': self.product1.id})
+    #     data = {
+    #         'rating': 0,
+    #         'comment': 'Invalid rating',
+    #     }
+    #     response = self.client.post(url, data)
+    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    #     self.assertEqual(response.data, {'detail': 'Please select a rating'})
+
 class ReviewTestCase(APITestCase):
     def setUp(self):
         self.user = User.objects.create(
@@ -120,8 +249,75 @@ class OrderItemTestCase(APITestCase):
             price=600,
             name='Order Item'
         )
+
     def test_orderItem_str_method(self):
         self.assertEqual(str(self.orderItem), 'Order Item')
+    
+    def test_add_order_items(self):
+        self.client.force_authenticate(user=self.user)
+        url = reverse("orders-add")
+
+        data = {
+            'orderItems': [
+                {
+                    'product': self.product.id,
+                    'qty': 2,
+                    'price': 20.0,
+                }
+            ],
+            'paymentMethod': 'PayPal',
+            'taxPrice': 2.0,
+            'shippingPrice': 5.0,
+            'totalPrice': 50.0,
+            'shippingAddress': {
+                'address': '123 Shipping St',
+                'city': 'Shipping City',
+                'postalCode': '12345',
+                'country': 'Shipping Country',
+            },
+        }
+
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        created_order = Order.objects.filter(user=self.user).latest('id')
+        self.assertIsNotNone(created_order)
+
+        created_shipping_address = ShippingAddress.objects.get(order=created_order)
+        self.assertIsNotNone(created_shipping_address)
+
+        created_order_item = OrderItem.objects.get(order=created_order)
+        self.assertIsNotNone(created_order_item)
+
+        updated_product = Product.objects.get(id=self.product.id)
+        self.assertEqual(updated_product.countInStock, 48)
+
+        serializer = OrderSerializer(created_order, many=False)
+        self.assertEqual(response.data, serializer.data)
+
+    def test_add_order_items_no_order_items(self):
+        self.client.force_authenticate(user=self.user)
+
+        url = reverse("orders-add")
+        data = {
+            'paymentMethod': 'PayPal',
+            'taxPrice': 2.0,
+            'shippingPrice': 5.0,
+            'totalPrice': 50.0,
+            'shippingAddress': {
+                'address': '123 Shipping St',
+                'city': 'Shipping City',
+                'postalCode': '12345',
+                'country': 'Shipping Country',
+            },
+        }
+
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data, {'detail': 'No Order Items'})
+
 class ShippingAddressModelTestCase(APITestCase):
     def setUp(self):
         self.order = Order.objects.create(paymentMethod='Credit Card', totalPrice=50.25)
@@ -151,7 +347,6 @@ class ProductSerializerTestCase(APITestCase):
             image_1 = 'smartphone-img_1.png',
             image_2 = 'smartphone-img_2.png',
             image_3 = 'smartphone-img_3.png',
-            image_4 = 'smartphone-img_4.png',
             brand='Samsung',
             category=self.category,
             description='A high-quality smartphone',
@@ -165,49 +360,13 @@ class ProductSerializerTestCase(APITestCase):
         
     def test_get_additional_images(self):
         expected_images = [
+            self.product.main_image.url,
             self.product.image_1.url,
             self.product.image_2.url,
             self.product.image_3.url,
-            self.product.image_4.url,
         ]
         self.assertEqual(self.serializer.get_additional_images(self.product), expected_images)
+
     def test_get_reviews(self):
         expected_reviews_data = ReviewSerializer(self.product.reviews.all(), many=True).data
         self.assertEqual(self.serializer.get_reviews(self.product), expected_reviews_data)
-
-class ProductListViewTest(APITestCase):
-    def setUp(self):
-        self.product1 = Product.objects.create(name='Product 1', price=20)
-        self.product2 = Product.objects.create(name='Product 2', price=30)
-        self.client = APIClient()
-
-    def test_product_list_view(self):
-        response = self.client.get(reverse('products'))
-        self.assertEqual(response.status_code, 200)
-
-        # Check that the correct serializer is used
-        self.assertEqual(response.data['products'], ProductSerializer([self.product1, self.product2], many=True).data)
-
-    def test_product_list_view_with_search(self):
-        response = self.client.get(reverse('products'), {'keyword': 'Product 1'})
-
-        self.assertEqual(response.status_code, 200)
-
-        # Check that the correct serializer is used and only one products returned
-        self.assertEqual(response.data['products'], ProductSerializer([self.product1], many=True).data)
-
-    def test_product_list_view_pagination(self):
-        for i in range(10):
-            Product.objects.create(name=f'Product {i+3}', price=10)
-
-        response = self.client.get(reverse('products'), {'page': 2})
-
-        self.assertEqual(response.status_code, 200)
-
-        # Check that the correct serializer is used and the correct page is returned
-        expected_products = Product.objects.all()[2:4]
-        self.assertEqual(response.data['products'], ProductSerializer(expected_products, many=True).data)
-
-
-        self.assertEqual(response.data['page'], 2)
-        self.assertEqual(response.data['pages'], 6)
