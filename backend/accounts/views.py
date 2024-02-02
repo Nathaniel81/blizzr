@@ -40,6 +40,7 @@ class RegistrationView(generics.CreateAPIView):
         
         data = {
             'response': 'Successfully registered',
+            'id': serializedData['id'],
             'username': serializedData['username'],
             'email': serializedData['email'],
             'token': serializedData.get('token'),
