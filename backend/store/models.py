@@ -14,7 +14,6 @@ class Product(models.Model):
     image_1 = models.ImageField(blank=True, null=True, default='no-image.png')
     image_2 = models.ImageField(blank=True, null=True, default='no-image.png')
     image_3 = models.ImageField(blank=True, null=True, default='no-image.png')
-    image_4 = models.ImageField(blank=True, null=True, default='no-image.png')
     brand = models.CharField(max_length=200, null=True, blank=True)
     category = models.ForeignKey(Category, related_name='products', max_length=200, null=True, blank=True, on_delete=models.SET_NULL)
     description = models.TextField(null=True, blank=True)
