@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from store.models import Product, Review, Category
 from accounts.models import User
-from store.serializers import ProductSerializer
+from store.serializers import ProductSerializer, CategorySerializer
 
 class ProductList(generics.ListAPIView):
     queryset = Product.objects.all()
@@ -14,10 +14,14 @@ class ProductList(generics.ListAPIView):
 
     def get(self, request, *args, **kwargs):
         search_param = self.request.query_params.get('keyword', '')
-        queryset = self.queryset.filter(name__icontains=search_param)
+        queryset = self.queryset.filter(name__icontains=search_param).order_by('-createdAt')
+        category_id = self.request.query_params.get('category')
+        
+        if category_id and type(category_id) == int:
+            queryset = queryset.filter(category__id=category_id).order_by('-createdAt')
 
         page = int(self.request.query_params.get('page', 1))
-        paginator = Paginator(queryset, 2)
+        paginator = Paginator(queryset, 8)
 
         try:
             products = paginator.page(page)
@@ -33,6 +37,10 @@ class ProductDetail(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+class CategoryListView(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    
 class CreateProductReviewView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Product.objects.all()
@@ -40,14 +48,14 @@ class CreateProductReviewView(generics.CreateAPIView):
         user = request.user
         product = self.get_object()
         data = request.data
-        
+
         already_exists = product.reviews.filter(user=user).exists()
         if already_exists:
             content = {'detail': 'Product already reviewed'}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
-        elif data.get('rating') == 0:
-            content = {'detail': 'Please select a rating'}
-            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+        # elif data.get('rating') == 0:
+        #     content = {'detail': 'Please select a rating'}
+        #     return Response(content, status=status.HTTP_400_BAD_REQUEST)
         elif data.get('comment') == '':
             content = {'detail': 'Please write a review'}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
@@ -82,7 +90,6 @@ class DeleteProductView(generics.DestroyAPIView):
         return Response('Product deleted')
 
 class CreateProductView(generics.CreateAPIView):
-    # queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
     def perform_create(self, serializer):
@@ -113,11 +120,25 @@ class UploadImageView(generics.CreateAPIView):
         except Product.DoesNotExist:
             return Response({'detail': 'Product not found'}, status=404)
 
-        product.main_image = request.FILES.get('image')
-        # product.image_1 = request.FILES.get('image_1', '')
-        # product.image_2 = request.FILES.get('image_2', '')
-        # product.image_3 = request.FILES.get('image_3', '')
-        # product.image_4 = request.FILES.get('image_4', '')
+        image_fields = ['main_image', 'image_1', 'image_2', 'image_3']
+
+        for field in image_fields:
+            file = request.FILES.get(field)
+            if file:
+                setattr(product, field, file)
+
+
         product.save()
 
         return Response('Image was uploaded')
+
+class TopProductsAPIView(generics.ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        return Product.objects.filter(rating__gte=4).order_by('-rating')[:5]
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
