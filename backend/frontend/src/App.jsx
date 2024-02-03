@@ -1,6 +1,6 @@
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Home from "./Pages/Home";
 import ProductListPage from "./Pages/ProductListPage";

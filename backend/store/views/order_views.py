@@ -4,8 +4,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from datetime import datetime
 from store.models import Order, OrderItem, Product, ShippingAddress
 from store.serializers import OrderSerializer
-from accounts.models import User
-# from rest_framework.decorators import permission_classes, api_view
+
 
 class AddOrderItemsView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
@@ -14,10 +13,7 @@ class AddOrderItemsView(generics.CreateAPIView):
         user = request.user
         data = request.data
 
-        orderItems = data.get('orderItems', [])
-        # print(orderItems[0])
-        # print(data)
-        
+        orderItems = data.get('orderItems', [])        
 
         if not orderItems:
             return Response({'detail': 'No Order Items'}, status=status.HTTP_400_BAD_REQUEST)
