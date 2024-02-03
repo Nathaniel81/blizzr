@@ -61,5 +61,5 @@ media/
 *.conf
 
 # Ignore Docker files
-Dockerfile
-docker-compose.yml
+# Dockerfile
+# docker-compose.yml
