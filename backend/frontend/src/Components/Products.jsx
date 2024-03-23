@@ -20,7 +20,7 @@ const Products = ({ product }) => {
           <img
             src={product.main_image}
             alt="Shoes"
-            className="w-full h-56 object-cover"
+            className="w-full h-56 object-contain"
           />
         </figure>
         <div className="card-body p-4">

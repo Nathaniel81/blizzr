@@ -5,7 +5,7 @@ import Products from "../Components/Products";
 import Loader from '../Components/Loader';
 import Message from '../Components/Message';
 import Paginate from '../Components/Paginate';
-import TopProductsCarousel from '../Components/TopProductsCarousel';
+// import TopProductsCarousel from '../Components/TopProductsCarousel';
 import { fetchProducts } from '../redux/actions/productActions';
 // import { fetchCategories } from '../redux/actions/productActions'
 
@@ -32,7 +32,7 @@ const ProductListPage = () => {
 
   return (
     <div className='min-h-screen'>
-      {!queryString && <TopProductsCarousel />}
+      {/* {!queryString && <TopProductsCarousel />} */}
       <h1 className="text-2xl font-extrabold px-4 md:px-8 lg:px-16 my-5">LATEST PRODUCTS</h1>
       {loading ? (<Loader />)
         : error ? (

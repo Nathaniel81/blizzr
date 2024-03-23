@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { FiSearch } from "react-icons/fi";
 
 
 const SearchBox = () => {
@@ -8,16 +9,16 @@ const SearchBox = () => {
   const location = useLocation();
   let path = location.pathname;
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    if (keyword && (path === '/products' || path === '/products/')) {
-      navigate(`/products/?keyword=${keyword}&page=1`);
-    } else if (keyword && path === '/admin/productlist'){ 
-      navigate(`/admin/productlist/?keyword=${keyword}&page=1`);
-    } else {
-    navigate('/products');
-  }
-  };
+  // const submitHandler = (e) => {
+  //   e.preventDefault();
+  //   if (keyword && (path === '/products' || path === '/products/')) {
+  //     navigate(`/products/?keyword=${keyword}&page=1`);
+  //   } else if (keyword && path === '/admin/productlist'){ 
+  //     navigate(`/admin/productlist/?keyword=${keyword}&page=1`);
+  //   } else {
+  //   navigate('/products');
+  // }
+  // };
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -38,16 +39,15 @@ const SearchBox = () => {
   };
 
   return (
-      <form onSubmit={submitHandler}>
-        <div className="form-control">
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-bordered w-full rounded-full md:w-[400px] input-md max-w-xs h-10"
-            onChange={changeHandler}
-          />
-        </div>
-      </form>
+    <div className="w-full bg-white hidden md:flex items-center gap-x-1 border-[1px] border-lightText/50 rounded-full px-4 py-1.5 focus-within:border-orange-600 group">
+      <FiSearch className="text-gray-500 group-focus-within:text-darkText duration-200" />
+      <input
+        type="text"
+        placeholder="Search for products"
+        className="placeholder:text-sm flex-1 outline-none"
+        onChange={changeHandler}
+      />
+    </div>
   );
 };
 

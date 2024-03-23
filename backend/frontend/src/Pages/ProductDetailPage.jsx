@@ -78,14 +78,20 @@ const ProductDetailPage = () => {
         <div>
           <div className="flex flex-col md:flex-row justify-between gap-8">
             <div className="md:w-2/5">
-              <img src={selectedImage} alt={product.name} className="w-full h-auto" />
-                <div className="flex mt-2 justify-between max-w-full">
+              <div>
+                <img 
+                src={selectedImage} 
+                alt={product.name} 
+                className="w-full md:h-96 object-contain"
+                />
+              </div>
+                <div className="w-full p-1 flex mt-2 justify-between">
                   {smallImages.map((smallImage, index) => (
                     <img
                       key={index}
                       src={smallImage}
                       alt={`Thumbnail ${index + 1}`}
-                      className="w-[23%] h-auto cursor-pointer"
+                      className="w-[23%] h-auto cursor-pointer object-contain"
                       onClick={() => handleSmallImageClick(smallImage)}
                     />
                   ))}
@@ -195,12 +201,12 @@ const ProductDetailPage = () => {
                   </textarea>
                </div>
                {reviewLoading ? 
-               <button className="btn">
+               <button className="btn w-2/6">
                   <span className="loading loading-spinner"></span>
                     Submitting
                 </button> : 
                 <button 
-               className="btn"
+               className="btn w-2/6"
                type="submit"
                >
                 Submit
