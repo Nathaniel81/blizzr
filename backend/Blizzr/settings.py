@@ -12,7 +12,14 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
+import cloudinary
+import cloudinary.api
+import cloudinary.uploader
+import dj_database_url
+from datetime import timedelta
 from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,13 +30,13 @@ load_dotenv()
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-jomg4&dj&fet1o2$rxm9ut9v@&vp*@y7-1@2!$qd!(!fk#44-&"
+SECRET_KEY = "django-insecure-jomg4&dj&fet1o2$rxm9ut9v@&vp*@y7-1@2!$qd!(!fk#44-&j"
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["blizzrshop.onrender.com"]
 
 
 # Application definition
@@ -42,9 +49,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'store',
-    'accounts',
     'corsheaders',
+    'cloudinary',
+    'accounts',
+    'store'
 ]
 
 REST_FRAMEWORK = {
@@ -52,7 +60,6 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
-from datetime import timedelta
 # JWT_AUTH = {
 #     'JWT_EXPIRATION_DELTA': timedelta(seconds=300),
 # }
@@ -80,7 +87,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'staticfiles/')
+            os.path.join(BASE_DIR, 'frontend', 'dist')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -96,16 +103,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Blizzr.wsgi.application'
 
+cloudinary.config(
+    cloud_name=os.getenv('CLOUDINARY_NAME'),
+    api_key=os.getenv('CLOUDINARY_API_KEY'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET_KEY'),
+)
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET_KEY'),
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 
 # DATABASES = {
 #    'default': {
@@ -118,13 +138,11 @@ DATABASES = {
 #    }
 # }
 
-# import dj_database_url
+import dj_database_url
 
-# database_url = os.getenv('DATABASE_URL')
-
-# DATABASES = {
-#     'default': dj_database_url.parse(database_url)
-# }
+DATABASES = {
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+}
 
 
 # Password validation
@@ -171,6 +189,8 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
