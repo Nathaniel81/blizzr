@@ -25,19 +25,15 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Dependencies
       run: |
-        cd backend
         python -m pip install --upgrade pip
         pip install -r requirements_workflow.txt
     - name: Run Tests and Coverage
       run: |
-        cd backend
         coverage run manage.py test --keepdb
     - name: Generate Coverage Report
       run: |
-        cd backend
         coverage report -m
         coverage xml
     - name: Check Coverage
       run: |
-        cd backend
         coverage report --fail-under=85
