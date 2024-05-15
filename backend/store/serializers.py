@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from store.models import Product, Review, Order, OrderItem, ShippingAddress, Category
 from accounts.models import User
+from cloudinary.utils import cloudinary_url
+
+
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,23 +16,26 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
-    additional_images = serializers.SerializerMethodField()
     reviews = serializers.SerializerMethodField(read_only=True)
     category = serializers.StringRelatedField()
 
     class Meta:
         model = Product
-        exclude = ['image_1', 'image_2', 'image_3']
+        exclude = ['main_image', 'image_1', 'image_2', 'image_3']
 
-    def get_additional_images(self, obj):
-        additional_images = [
-            obj.main_image.url if obj.main_image and obj.main_image.url != '/media/no-image.png' else None,
-            obj.image_1.url if obj.image_1 and obj.image_1.url != '/media/no-image.png' else None,
-            obj.image_2.url if obj.image_2 and obj.image_2.url != '/media/no-image.png' else None,
-            obj.image_3.url if obj.image_3 and obj.image_3.url != '/media/no-image.png' else None,
-        ]
-
-        return list(filter(None, additional_images))
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        images = []
+        if instance.main_image:
+            images.append(cloudinary_url(instance.main_image.public_id)[0])
+        if instance.image_1:
+            images.append(cloudinary_url(instance.image_1.public_id)[0])
+        if instance.image_2:
+            images.append(cloudinary_url(instance.image_2.public_id)[0])
+        if instance.image_3:
+            images.append(cloudinary_url(instance.image_3.public_id)[0])
+        representation['images'] = images
+        return representation
 
     def get_reviews(self, obj):
         reviews = obj.reviews.all()
@@ -39,6 +45,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField(read_only=True)
     isAdmin = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'name', 'isAdmin']
@@ -59,6 +66,12 @@ class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         fields = '__all__'
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.image:
+            representation['image'] = cloudinary_url(instance.image.public_id)[0]
+        return representation
     
 class OrderSerializer(serializers.ModelSerializer):
     orderItems = serializers.SerializerMethodField(read_only=True)

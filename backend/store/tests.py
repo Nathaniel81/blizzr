@@ -10,7 +10,7 @@ from django.test import override_settings
 
 class CategoryTestCase(APITestCase):
     def setUp(self):
-        self.category = Category.objects.create(name='Electronics', image='electronics-img.png')
+        self.category = Category.objects.create(name='Electronics')
         self.assertEqual(Category.objects.count(), 1)
 
     def test_category_str_method(self):
@@ -19,7 +19,7 @@ class CategoryTestCase(APITestCase):
 @override_settings(MEDIA_URL='http://testserver')
 class ProductTestCase(APITestCase):
     def setUp(self):
-        self.category = Category.objects.create(name='Electronics', image='electronics-img.png')
+        self.category = Category.objects.create(name='Electronics')
         self.assertEqual(Category.objects.count(), 1)
         self.product = Product.objects.create(
             name='SmartPhone',
@@ -48,7 +48,6 @@ class ProductTestCase(APITestCase):
     def test_product_list_view(self):
         response = self.client.get(reverse('products'), {'keyword': 'Product 1'})
         self.assertEqual(response.status_code, 200)
-        # self.assertEqual(response.data['products'], ProductSerializer([self.product2, self.product, self.product1, ], many=True).data)
 
     def test_product_list_view_with_search(self):
         response = self.client.get(reverse('products'), {'keyword': 'Product 1'})
@@ -151,16 +150,6 @@ class ProductTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data, {'detail': 'Product already reviewed'})
     
-    # def test_create_invalid_rating_product_review(self):
-    #     self.client.force_authenticate(user=self.admin_user)
-    #     url = reverse("create-review", kwargs={'pk': self.product1.id})
-    #     data = {
-    #         'rating': 0,
-    #         'comment': 'Invalid rating',
-    #     }
-    #     response = self.client.post(url, data)
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-    #     self.assertEqual(response.data, {'detail': 'Please select a rating'})
 
 class ReviewTestCase(APITestCase):
     def setUp(self):
@@ -171,7 +160,7 @@ class ReviewTestCase(APITestCase):
             last_name='Doe',
             address='2436 Naples Avenue, Panama City FL 32405'
         )
-        self.category = Category.objects.create(name='Electronics', image='electronics-img.png')
+        self.category = Category.objects.create(name='Electronics')
         self.product = Product.objects.create(
             name='SmartPhone',
             main_image='smartphone-img.png',
@@ -216,7 +205,7 @@ class OrderTestCase(APITestCase):
 
 class OrderItemTestCase(APITestCase):
     def setUp(self):
-        self.category = Category.objects.create(name='Electronics', image='electronics-img.png')
+        self.category = Category.objects.create(name='Electronics')
         self.user = User.objects.create(
             username='Jhon',
             password='jhon'
@@ -336,7 +325,7 @@ class ShippingAddressModelTestCase(APITestCase):
 
 class ProductSerializerTestCase(APITestCase):
     def setUp(self):
-        self.category = Category.objects.create(name='Electronics', image='electronics-img.png')
+        self.category = Category.objects.create(name='Electronics')
         self.user = User.objects.create(
             username='Jhon',
             password='jhonD#3'
@@ -357,15 +346,7 @@ class ProductSerializerTestCase(APITestCase):
         )
         self.review = Review.objects.create(user=self.user, product=self.product, rating=5, comment='Great product!')
         self.serializer = ProductSerializer(instance=self.product)
-        
-    def test_get_additional_images(self):
-        expected_images = [
-            self.product.main_image.url,
-            self.product.image_1.url,
-            self.product.image_2.url,
-            self.product.image_3.url,
-        ]
-        self.assertEqual(self.serializer.get_additional_images(self.product), expected_images)
+
 
     def test_get_reviews(self):
         expected_reviews_data = ReviewSerializer(self.product.reviews.all(), many=True).data
