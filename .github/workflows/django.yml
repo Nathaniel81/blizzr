@@ -28,7 +28,7 @@ jobs:
     - name: Run Tests and Coverage
       run: |
         cd backend
-        coverage run manage.py test
+        coverage run manage.py test --keepdb
     - name: Generate Coverage Report
       run: |
         cd backend
