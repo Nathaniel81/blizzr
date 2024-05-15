@@ -60,8 +60,6 @@ media/
 # Ignore configuration files
 *.conf
 
-./staticfiles
-
 
 # Ignore Docker files
 # Dockerfile
