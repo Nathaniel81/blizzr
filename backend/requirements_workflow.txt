@@ -1,14 +1,8 @@
 asgiref==3.7.2
-# coverage==7.4.0
-# Django==5.0.1
-# django-countries==7.5.1
-# django-cors-headers==4.3.1
 django-cors-headers==4.1.0
 djangorestframework==3.14.0
-# pillow==10.2.0
 pytz==2023.3.post1
 sqlparse==0.4.4
-# typing_extensions==4.9.0
 tzdata==2023.4
 djangorestframework-simplejwt==5.3.0
 PyJWT==1.7.1
@@ -20,3 +14,8 @@ typing_extensions==4.7.1
 python-dotenv==0.21.1
 whitenoise==6.6.0
 cloudinary==1.40.0
+dj-database-url==2.1.0
+psycopg2-binary==2.9.9
+gunicorn==21.2.0
+packaging==23.2
+tzdata==2024.1
