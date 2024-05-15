@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      CLOUD_NAME: ${{ secrets.CLOUD_NAME }}
     strategy:
       max-parallel: 4
       matrix:
