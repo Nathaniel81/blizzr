@@ -1,18 +1,18 @@
 import { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import Message from '../Components/Message'
-import CheckoutSteps from '../Components/CheckoutSteps'
+import { Link, useNavigate } from 'react-router-dom'
+import CheckoutSteps from '../components/CheckoutSteps'
+import Message from '../components/Message'
 import { createOrder } from '../redux/actions/orderActions'
 
 
-const PlaceorderPage = () => {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const orderCreate = useSelector(state => state.orderCreate)
-    const { order, error, success } = orderCreate
-    const orderValues = useSelector(state => state.cart.orderValues)
-    const cart = useSelector(state => state.cart)
+const PlaceOrderPage = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const orderCreate = useSelector(state => state.orderCreate);
+    const { order, error, success } = orderCreate;
+    const orderValues = useSelector(state => state.cart.orderValues);
+    const cart = useSelector(state => state.cart);
 
 
     const placeOrder = () => {
@@ -24,17 +24,17 @@ const PlaceorderPage = () => {
             shippingPrice: orderValues.shippingPrice,
             taxPrice: orderValues.taxPrice,
             totalPrice: orderValues.totalPrice,
-        }))
-    }
+        }));
+    };
 
     useEffect(() => {
         if (!cart.paymentMethod) {
-            navigate('/payment')
+            navigate('/payment');
         }
         if (success) {
-            navigate(`/order/${order.id}`)
+            navigate(`/order/${order.id}`);
         }
-    }, [order, dispatch, success, navigate, cart, error])
+    }, [order, dispatch, success, navigate, cart, error]);
 
     return (
         <div className='mx-auto px-16'>
@@ -121,7 +121,7 @@ const PlaceorderPage = () => {
                   disabled={cart.cartItems.length === 0}
                   onClick={placeOrder}
                 >
-                  PLACE ORDER
+                  Place Order
                 </button>
                </div>
               </div>
@@ -131,4 +131,4 @@ const PlaceorderPage = () => {
       );  
     };
 
-export default PlaceorderPage
+export default PlaceOrderPage;

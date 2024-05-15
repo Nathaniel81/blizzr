@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const userRegisterSlice = createSlice({
   name: 'userRegister',
   initialState: {
     loading: false,
-	userInfo: false,
+  userInfo: false,
     error: null,
   },
   reducers: {
@@ -20,9 +21,9 @@ const userRegisterSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-	userRegisterReset: (state) => {
-		state.userInfo = false;
-	}
+  userRegisterReset: (state) => {
+    state.userInfo = false;
+  }
   },
 });
 

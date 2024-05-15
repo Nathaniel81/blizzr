@@ -1,10 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// const initialState = {
-// 	loading: false,
-// 	success: {},
-// 	error: null,
-//   };
 
 const orderDeliverSlice = createSlice({
   name: 'orderDeliver',
@@ -25,17 +20,17 @@ const orderDeliverSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-	orderDeliverReset: (state) => {
-		state.success = null;
-		state.error = null;
-	},
+  orderDeliverReset: (state) => {
+    state.success = null;
+    state.error = null;
+  },
   },
 });
 
 export const {
-	orderDeliverRequest,
-	orderDeliverSuccess,
-	orderDeliverFailure,
-	orderDeliverReset
+  orderDeliverRequest,
+  orderDeliverSuccess,
+  orderDeliverFailure,
+  orderDeliverReset
 } = orderDeliverSlice.actions;
 export default orderDeliverSlice.reducer;

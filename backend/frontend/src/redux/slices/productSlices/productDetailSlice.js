@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const productDetailSlice = createSlice({
   name: 'productDetail',
   initialState: {
@@ -15,7 +16,7 @@ const productDetailSlice = createSlice({
     fetchProductDetailSuccess: (state, action) => {
       state.loading = false;
       state.product = action.payload;
-      state.smallImages = action.payload.additional_images,
+      state.smallImages = action.payload.images,
       state.error = null;
     },
     fetchProductDetailFailure: (state, action) => {

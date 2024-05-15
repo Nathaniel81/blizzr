@@ -1,15 +1,19 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useParams, useNavigate } from 'react-router-dom'
-import Message from '../Components/Message';
+import { 
+  Link, 
+  useLocation, 
+  useParams, 
+  useNavigate 
+} from 'react-router-dom'
+import Message from '../components/Message';
 import { addToCart, removeFromCart } from '../redux/actions/cartActions';
 import { saveOrderValues } from '../redux/slices/cartSlices/addToCartSlice';
 
 
-const ShoppingCart = () => {
-  // const orderValues = useSelector(state => state.cart.orderValues)
-  const cart = useSelector(state => state.cart)
-  const { cartItems } = cart
+const CartPage = () => {
+  const cart = useSelector(state => state.cart);
+  const { cartItems } = cart;
   const userLogin = useSelector(state => state.userInfo);
   const { user } = userLogin;
 
@@ -21,32 +25,32 @@ const ShoppingCart = () => {
   const navigate = useNavigate();
   const query = useQuery();
   const dispatch = useDispatch();
-  const qty = Number(query.get('qty'))
-  // const qty = Number(new URLSearchParams(window.location.search).get('qty'));
+  const qty = Number(query.get('qty'));
 
   useEffect(() => {
     if (id) {
       dispatch(addToCart(id, qty));
-      dispatch(saveOrderValues())
+      dispatch(saveOrderValues());
     }
   }, [dispatch, id, qty]);
 
   const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id))
-    dispatch(saveOrderValues())
-  }
+    dispatch(removeFromCart(id));
+    dispatch(saveOrderValues());
+  };
 
   const checkoutHandler = () => {
     if (!user) {
-      navigate('/login?redirect=shipping')
+      navigate('/login?redirect=shipping');
     } else {
-      navigate('/shipping')
-      dispatch(saveOrderValues())
+      navigate('/shipping');
+      dispatch(saveOrderValues());
     }
-  }
+  };
+
 
   return (
-    <div className="mx-auto md:mt-20 mt-16 px-16">
+    <div className="mx-auto md:mt-8 mt-3 px-16">
       <button onClick={() => navigate(-1)} className="btn btn-ghost md:mb-8">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
           <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -109,14 +113,14 @@ const ShoppingCart = () => {
                 <h2 className="text-xl font-semibold mb-2">SUBTOTAL ({cartItems.reduce((acc, item) => acc + item.qty, 0)} ITEMS)</h2>
                 <span className="text-lg font-semibold">${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</span>
               </li>
-              <li className="text-center my-3">
+              <li className="text-center text-lg">
                 <button
                   type='button'
                   className="w-full btn"
                   disabled={cartItems.length === 0}
                   onClick={checkoutHandler}
                 >
-                  PROCEED TO CHECKOUT
+                  Proceed to Checkout
                 </button>
               </li>
             </ul>
@@ -127,4 +131,4 @@ const ShoppingCart = () => {
   );
 };
 
-export default ShoppingCart;
+export default CartPage;

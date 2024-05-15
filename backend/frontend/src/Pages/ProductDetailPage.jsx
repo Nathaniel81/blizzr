@@ -1,20 +1,20 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProductDetail, createProductReview } from "../redux/actions/productActions"
-import {resetProductReview} from "../redux/slices/productSlices/productReviewCreateSlice"
-import Loader from '../Components/Loader';
-import Message from '../Components/Message';
-import Ratings from '../Components/Ratings';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import Ratings from '../components/Ratings';
+import { createProductReview, fetchProductDetail } from "../redux/actions/productActions";
+import { resetProductReview } from "../redux/slices/productSlices/productReviewCreateSlice";
 
 
 const ProductDetailPage = () => {
-  const { id } = useParams()
+  const { id } = useParams();
   const dispatch = useDispatch()
   const navigate = useNavigate();
 
-  const userLogin = useSelector(state => state.userInfo)
-  const { user } = userLogin
+  const userLogin = useSelector(state => state.userInfo);
+  const { user } = userLogin;
 
   const productDetail = useSelector((state) => state.productDetail);
   const { error, loading, product, smallImages } = productDetail;
@@ -24,44 +24,47 @@ const ProductDetailPage = () => {
 
   const [selectedImage, setSelectedImage] = useState(product?.main_image || null);
 
-  const [rating, setRating] = useState(0)
-  const [comment, setComment] = useState('')
-  const [qty, setQty] = useState(1)
-  // const [price, setPrice] = useState(product?.price || null)
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
+  const [qty, setQty] = useState(1);
 
   useEffect(() => {
     if (success) {
-      dispatch(resetProductReview())
-      dispatch(fetchProductDetail(id))
+      dispatch(resetProductReview());
+      dispatch(fetchProductDetail(id));
     }
     if (product?.id !== id) {
-      dispatch(resetProductReview())
+      dispatch(resetProductReview());
       dispatch(fetchProductDetail(id));
     }
   }, [dispatch, product?.review, id, product?.id, success]);
 
   useEffect(() => {
-    setSelectedImage(product?.main_image);
-  }, [product?.main_image]);
+    setSelectedImage(smallImages[0]);
+  }, [smallImages]);
 
   const handleSmallImageClick = (smallImage) => {
     setSelectedImage(smallImage);
   };
 
   const submitHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     dispatch(createProductReview(
       id, { rating, comment }
     ))
-    setComment('')
+    setComment('');
   }
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const addToCartHandler = () => {
     navigate(`/cart/${id}?qty=${qty}`);
   }
 
   return (
-    <div className='md:mt-20 mt-16 mx-auto px-16 min-h-screen'>
+    <div className='md:mt-8 mt-3 mx-auto px-16 min-h-screen'>
         <button onClick={() => navigate(-1)} className="btn btn-ghost mb-8">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -86,7 +89,7 @@ const ProductDetailPage = () => {
                 />
               </div>
                 <div className="w-full p-1 flex mt-2 justify-between">
-                  {smallImages.map((smallImage, index) => (
+                  {smallImages.length > 1 && smallImages.map((smallImage, index) => (
                     <img
                       key={index}
                       src={smallImage}
@@ -157,7 +160,7 @@ const ProductDetailPage = () => {
                     type="button"
                     onClick={addToCartHandler}
                   >
-                    ADD TO CART
+                    Add to Cart
                   </button>
                 </li>
               </ul>
@@ -201,7 +204,7 @@ const ProductDetailPage = () => {
                   </textarea>
                </div>
                {reviewLoading ? 
-               <button className="btn w-2/6">
+               <button disabled className="btn w-2/6">
                   <span className="loading loading-spinner"></span>
                     Submitting
                 </button> : 
@@ -221,6 +224,6 @@ const ProductDetailPage = () => {
       )}
     </div>
     )
-  }
+  };
 
-export default ProductDetailPage
+export default ProductDetailPage;

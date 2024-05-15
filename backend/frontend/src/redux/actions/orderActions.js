@@ -1,19 +1,19 @@
 import axios from "axios";
 import { 
-	orderCreateStart, 
-	orderCreateSuccess, 
-	orderCreateFailure, 
+    orderCreateStart, 
+    orderCreateSuccess, 
+    orderCreateFailure, 
 } from "../slices/orderSlices/orderCreateSlice";
 import { cartClearItems } from "../slices/cartSlices/addToCartSlice";
 import { 
-	orderDetailsRequest,
-	orderDetailsSuccess, 
-	orderDetailsFailure 
+    orderDetailsRequest,
+    orderDetailsSuccess, 
+    orderDetailsFailure 
 } from "../slices/orderSlices/orderDetailSlice";
 import { 
-	orderPayStart, 
-	orderPaySuccess, 
-	orderPayFailure 
+    orderPayStart, 
+    orderPaySuccess, 
+    orderPayFailure 
 } from "../slices/orderSlices/orderPaySlice";
 import { 
     orderUserListRequest, 
@@ -34,10 +34,10 @@ import { clearOrderValues } from "../slices/cartSlices/addToCartSlice";
 
 
 export const createOrder = (order) => async (dispatch, getState) => {
-	try {
-		dispatch(orderCreateStart());
+    try {
+        dispatch(orderCreateStart());
 
-		const {
+        const {
             userInfo: { user },
         } = getState()
 
@@ -48,29 +48,29 @@ export const createOrder = (order) => async (dispatch, getState) => {
             }
         }
 
-		const { data } = await axios.post(`/api/orders/add/`,
-		order,
-		config,
-		)
+        const { data } = await axios.post(`/api/orders/add/`,
+        order,
+        config,
+        )
 
-		dispatch(orderCreateSuccess(data));
-		dispatch(cartClearItems())
+        dispatch(orderCreateSuccess(data));
+        dispatch(cartClearItems())
         dispatch(clearOrderValues())
-		localStorage.removeItem('cartItems')
-	} catch (error) {
-		dispatch(orderCreateFailure(
+        localStorage.removeItem('cartItems')
+    } catch (error) {
+        dispatch(orderCreateFailure(
             error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
         ));
-	}
+    }
   };
 
   export const getOrderDetail = (id) => async (dispatch, getState) => {
-	try {
-		dispatch(orderDetailsRequest());
+    try {
+        dispatch(orderDetailsRequest());
 
-		const {
+        const {
             userInfo: { user },
         } = getState()
 
@@ -81,19 +81,19 @@ export const createOrder = (order) => async (dispatch, getState) => {
             }
         }
 
-		const { data } = await axios.get(`/api/orders/${id}`,
-		config,
-		)
+        const { data } = await axios.get(`/api/orders/${id}`,
+        config,
+        )
 
-		dispatch(orderDetailsSuccess(data));
-		
-	} catch (error) {
-		dispatch(orderDetailsFailure(
+        dispatch(orderDetailsSuccess(data));
+        
+    } catch (error) {
+        dispatch(orderDetailsFailure(
             error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
         ))
-	}
+    }
   };
 
   export const payOrder = (id, paymentResult) => async (dispatch, getState) => {
@@ -109,7 +109,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
                 'Content-type': 'application/json',
                 Authorization: `Bearer ${user.token}`
             }
-		}
+        }
 
         const { data } = await axios.put(
             `/api/orders/${id}/pay`,
@@ -141,7 +141,7 @@ export const listUserOrders = () => async (dispatch, getState) => {
                 'Content-type': 'application/json',
                 Authorization: `Bearer ${user.token}`
             }
-		}
+        }
 
         const { data } = await axios.get(
             `/api/orders/myorders`,

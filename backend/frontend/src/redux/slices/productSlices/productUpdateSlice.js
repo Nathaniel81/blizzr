@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const productUpdateSlice = createSlice({
   name: 'productUpdate',
   initialState: {
     loading: false,
     success: false,
-	error: false
+  error: false
   },
   reducers: {
     productUpdateStart: (state) => {
@@ -19,10 +20,10 @@ const productUpdateSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-	productUpdateReset: (state) => {
-		state.error = false;
-		state.success = false;
-	},
+  productUpdateReset: (state) => {
+    state.error = false;
+    state.success = false;
+  },
   },
 });
 

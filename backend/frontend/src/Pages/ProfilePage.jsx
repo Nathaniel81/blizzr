@@ -1,71 +1,70 @@
-import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import Loader from '../Components/Loader'
-import Message from '../Components/Message'
-import { fetchUserDetails , updateUserDetails } from '../redux/actions/userActions'
-import { listUserOrders } from '../redux/actions/orderActions'
-import { userUpdateReset } from '../redux/slices/userSlices/userUpdateSlice'
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import { fetchUserDetails , updateUserDetails } from '../redux/actions/userActions';
+import { listUserOrders } from '../redux/actions/orderActions';
+import { userUpdateReset } from '../redux/slices/userSlices/userUpdateSlice';
 
 
 const ProfilePage = () => {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const userDetails = useSelector(state => state.userDetail)
-    const { error, loading, userDetail } = userDetails
+    const userDetails = useSelector(state => state.userDetail);
+    const { error, loading, userDetail } = userDetails;
 
-    const userLogin = useSelector(state => state.userInfo)
-    const { user:userInfo } = userLogin
+    const userLogin = useSelector(state => state.userInfo);
+    const { user:userInfo } = userLogin;
 
-    const userUpdateProfile = useSelector(state => state.userUpdate)
-    const { success } = userUpdateProfile
+    const userUpdateProfile = useSelector(state => state.userUpdate);
+    const { success } = userUpdateProfile;
 
-    const orderListMy = useSelector(state => state.userOrders)
-    const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
+    const orderListMy = useSelector(state => state.userOrders);
+    const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
 
-    const [name, setName] = useState(userDetail && userDetail.username || '')
-    const [email, setEmail] = useState(userDetail && userDetail.email || '')
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
-    const [message, setMessage] = useState('')
+    const [name, setName] = useState(userDetail && userDetail.username || '');
+    const [email, setEmail] = useState(userDetail && userDetail.email || '');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         if (!userInfo) {
-            navigate('/login')
+            navigate('/login');
         }
 
         if (userInfo) {
           if (!userDetail || userInfo.id !== userDetail.id || success) {
-            dispatch(fetchUserDetails('profile'))
-            dispatch(userUpdateReset())
-            dispatch(listUserOrders())
+            dispatch(fetchUserDetails('profile'));
+            dispatch(userUpdateReset());
+            dispatch(listUserOrders());
            } else {
-            setName(userDetail.username)
-            setEmail(userDetail.email)
+            setName(userDetail.username);
+            setEmail(userDetail.email);
            }
         }
-        
-    }, [dispatch, userDetail, userInfo, navigate, success])
+    }, [dispatch, userDetail, userInfo, navigate, success]);
 
     const submitHandler = (e) => {
       e.preventDefault()
       if (password != confirmPassword) {
-          setMessage('Passwords do not match')
+          setMessage('Passwords do not match');
       } else {
       dispatch(updateUserDetails({
         'id': userDetail.id,
         'username': name,
         'email': email,
         'password': password,
-      }))
-      setMessage('')
+      }));
+      setMessage('');
       }
-    }
+    };
 
     return (
         <div>
-          <div className="flex flex-wrap justify-between mt-32 mx-auto px-16">
+          <div className="flex flex-wrap justify-between mt-10 mx-auto px-16">
               <div className="md:w-[30%] w-full">
                 <h2 className="text-2xl font-bold">PROFILE</h2>
                 {message && <Message color={'alert-error'}>{message}</Message>}
@@ -167,6 +166,6 @@ const ProfilePage = () => {
          </div>
        </div>
     );
-}
+};
 
-export default ProfilePage
+export default ProfilePage;

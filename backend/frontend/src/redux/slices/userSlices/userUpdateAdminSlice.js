@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const userUpdateAdminSlice = createSlice({
   name: 'userUpdateAdmin',
   initialState: {
     loading: false,
-	success: false,
+  success: false,
     error: null,
   },
   reducers: {
@@ -20,10 +21,10 @@ const userUpdateAdminSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-	userUpdateAdminReset: (state) => {
-		state.success = false;
-		state.error = null;
-	}
+  userUpdateAdminReset: (state) => {
+    state.success = false;
+    state.error = null;
+  }
   },
 });
 

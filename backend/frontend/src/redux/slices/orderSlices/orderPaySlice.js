@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const orderPaySlice = createSlice({
   name: 'orderPay',
   initialState: {
@@ -30,9 +31,9 @@ const orderPaySlice = createSlice({
 });
 
 export const {
-	orderPayStart,
-	orderPaySuccess,
-	orderPayFailure,
+  orderPayStart,
+  orderPaySuccess,
+  orderPayFailure,
   orderPayReset
 } = orderPaySlice.actions;
 export default orderPaySlice.reducer;

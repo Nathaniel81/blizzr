@@ -1,42 +1,42 @@
-/*eslint-disable*/
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import Loader from "../Components/Loader";
-import Message from "../Components/Message";
-import { useNavigate } from 'react-router-dom'
+import Loader from "../components/Loader";
+import Message from "../components/Message";
+import { useNavigate } from 'react-router-dom';
 import { listUsers, deleteUser } from '../redux/actions/userActions';
 import { userDeleteReset } from '../redux/slices/userSlices/userDeleteSlice';
 
 
 const UserListPage = () => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const userList = useSelector(state => state.userList)
-  const { loading, error, users } = userList
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userList = useSelector(state => state.userList);
+  const { loading, error, users } = userList;
 
-  const userLogin = useSelector(state => state.userInfo)
-  const { user } = userLogin
-  const userDelete = useSelector(state => state.userDelete)
-  const { success: successDelete } = userDelete
+  const userLogin = useSelector(state => state.userInfo);
+  const { user } = userLogin;
+  const userDelete = useSelector(state => state.userDelete);
+  const { success: successDelete } = userDelete;
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
-        dispatch(deleteUser(id))
-        dispatch(userDeleteReset())
+        dispatch(deleteUser(id));
+        dispatch(userDeleteReset());
     }
-}
+  };
 
   useEffect(() => {
     if (user && user.isAdmin) {
-        dispatch(listUsers())
+        dispatch(listUsers());
     } else {
-        navigate('/login')
+        navigate('/login');
     }
 
-}, [dispatch, user, navigate, successDelete])
+}, [dispatch, user, navigate, successDelete]);
+
   return (
-    <div className='mx-auto px-16 mt-28 overflow-x-auto'>
+    <div className='mx-auto px-16 mt-8 overflow-x-auto'>
       <h1 className="text-2xl font-bold mb-4">Users</h1>
       {loading ? (
         <Loader />
@@ -90,6 +90,6 @@ const UserListPage = () => {
       )} 
     </div>
   );
-}
+};
 
-export default UserListPage
+export default UserListPage;

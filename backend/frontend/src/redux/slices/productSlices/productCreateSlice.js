@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const productCreateSlice = createSlice({
   name: 'productCreate',
   initialState: {
@@ -23,10 +24,10 @@ const productCreateSlice = createSlice({
       state.error = action.payload;
     },
     productCreateReset: (state) => {
-		state.success = false;
-		state.error = null;
-		state.product = {}
-	}
+    state.success = false;
+    state.error = null;
+    state.product = {}
+  }
   },
 });
 

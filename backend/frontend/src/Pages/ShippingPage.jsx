@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { saveShippingAddress } from '../redux/actions/cartActions';
-import CheckoutSteps from '../Components/CheckoutSteps';
+import CheckoutSteps from '../components/CheckoutSteps';
 
 
 const ShippingScreen = () => {
@@ -32,7 +32,7 @@ const ShippingScreen = () => {
   return (
     <>
       <CheckoutSteps step1={'step-primary'} step2={'step-primary'}></CheckoutSteps>
-      <h1 className="text-2xl font-bold pb-3 max-w-md mx-auto md:mt-14 mt-20">SHIPPING</h1>
+      <h1 className="text-2xl font-bold pb-3 max-w-md mx-auto md:mt-14 mt-4">SHIPPING</h1>
       <div className='max-w-md mb-5 mx-auto p-6 card rounded shadow-md'>
         <form onSubmit={submitHandler}>
           <div className="mb-4 form-control w-full">
@@ -92,7 +92,7 @@ const ShippingScreen = () => {
             />
           </div>
           <button type="submit" className="w-full btn">
-            CONTINUE
+            Continue
           </button>
         </form>
       </div>

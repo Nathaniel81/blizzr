@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const productDeleteSlice = createSlice({
   name: 'productDelete',
   initialState: {
@@ -21,9 +22,9 @@ const productDeleteSlice = createSlice({
       state.error = action.payload;
     },
     productDeleteReset: (state) => {
-		state.success = false;
-		state.error = null;
-	}
+    state.success = false;
+    state.error = null;
+  }
   },
 });
 

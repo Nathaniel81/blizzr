@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const userUpdateSlice = createSlice({
   name: 'userUpdate',
   initialState: {
@@ -20,10 +21,10 @@ const userUpdateSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-	userUpdateReset: (state) => {
-		state.success = false;
+  userUpdateReset: (state) => {
+    state.success = false;
     state.error = null;
-	}
+  }
   },
 });
 

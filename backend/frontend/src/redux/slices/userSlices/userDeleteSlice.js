@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const userDeleteSlice = createSlice({
   name: 'userDelete',
   initialState: {
     loading: false,
-	success: false,
+  success: false,
     error: null,
   },
   reducers: {
@@ -20,10 +21,10 @@ const userDeleteSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-	userDeleteReset: (state) => {
-		state.success = false;
-		state.error = null;
-	}
+  userDeleteReset: (state) => {
+    state.success = false;
+    state.error = null;
+  }
   },
 });
 

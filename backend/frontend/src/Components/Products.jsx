@@ -3,6 +3,8 @@ import Ratings  from './Ratings';
 import { Link } from 'react-router-dom';
 import { addToCart } from '../redux/actions/cartActions';
 import { useDispatch } from 'react-redux'
+import { toast } from "react-toastify";
+
 
 const Products = ({ product }) => {
   const dispatch = useDispatch();
@@ -10,7 +12,8 @@ const Products = ({ product }) => {
   const addToCartHandler = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    dispatch(addToCart(product.id, 1))
+    dispatch(addToCart(product.id, 1));
+    toast.success("Item added to cart!");
   }
 
   return (
@@ -18,7 +21,7 @@ const Products = ({ product }) => {
       <div className="card bg-base-100 shadow-lg">
         <figure>
           <img
-            src={product.main_image}
+            src={product.images[0]}
             alt="Shoes"
             className="w-full h-56 object-contain"
           />
@@ -36,7 +39,7 @@ const Products = ({ product }) => {
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
               </svg>
-              Add To Cart
+              Add to Cart
             </button>
           </div>
         </div>
@@ -49,7 +52,7 @@ Products.propTypes = {
   product: PropTypes.shape({
      id: PropTypes.number.isRequired,
      name: PropTypes.string.isRequired,
-     main_image: PropTypes.string.isRequired,
+     images: PropTypes.string.isRequired,
      price: PropTypes.string.isRequired,
      rating: PropTypes.string,
      numReviews: PropTypes.number.isRequired,

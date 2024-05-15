@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
   return (
-    <div className="md:flex hidden items-center justify-center mt-20 ">
+    <div className="md:flex hidden items-center justify-center mt-12 ">
       <ul className="steps text-md w-2/5 mx-auto">
         <li className={`step ${step1 ? 'step-primary' : ''}`}>
           {step1 ? (

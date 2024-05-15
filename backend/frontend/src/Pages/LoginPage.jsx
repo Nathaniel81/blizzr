@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import Loader from '../Components/Loader';
-import Message from '../Components/Message';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
 import { fetchUserInfo } from '../redux/actions/userActions';
 
 
@@ -12,7 +12,6 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-//   const redirect = new URLSearchParams(location.search).get('redirect') || '/';
   const userLogin = useSelector(state => state.userInfo);
   const { error, loading, user } = userLogin;
 

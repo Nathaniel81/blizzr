@@ -1,67 +1,69 @@
-import { useState, useEffect } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { PayPalButton } from 'react-paypal-button-v2'
-import Message from '../Components/Message'
-import Loader from '../Components/Loader'
-import { getOrderDetail, payOrder } from '../redux/actions/orderActions'
-import { orderCreateReset } from '../redux/slices/orderSlices/orderCreateSlice'
-import { orderPayReset } from '../redux/slices/orderSlices/orderPaySlice'
-import { deliverOrder } from '../redux/actions/orderActions'
-import { orderDeliverReset } from '../redux/slices/orderSlices/orderDeliverSlice'
+import { useEffect, useState } from 'react';
+import { PayPalButton } from 'react-paypal-button-v2';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import { deliverOrder, getOrderDetail, payOrder } from '../redux/actions/orderActions';
+import { orderCreateReset } from '../redux/slices/orderSlices/orderCreateSlice';
+import { orderDeliverReset } from '../redux/slices/orderSlices/orderDeliverSlice';
+import { orderPayReset } from '../redux/slices/orderSlices/orderPaySlice';
+
 
 const OrderPage = () => {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const { id } = useParams();
-    const orderDetails = useSelector(state => state.orderDetail)
-    const { orderItems:order, error, loading } = orderDetails
+    const orderDetails = useSelector(state => state.orderDetail);
+    const { orderItems:order, error, loading } = orderDetails;
 
-    const orderDeliver = useSelector(state => state.orderDeliver)
-    const { loading: loadingDeliver, success: successDeliver } = orderDeliver
+    console.log(order);
 
-    const orderPay = useSelector(state => state.orderPay)
-    const { loading: loadingPay, success: successPay } = orderPay
+    const orderDeliver = useSelector(state => state.orderDeliver);
+    const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
-    const userLogin = useSelector(state => state.userInfo)
-    const { user } = userLogin
+    const orderPay = useSelector(state => state.orderPay);
+    const { loading: loadingPay, success: successPay } = orderPay;
+
+    const userLogin = useSelector(state => state.userInfo);
+    const { user } = userLogin;
 
     const successPaymentHandler = (paymentResult) => {
-        dispatch(payOrder(id, paymentResult))
-    }
+        dispatch(payOrder(id, paymentResult));
+    };
 
     const deliverHandler = () => {
-        dispatch(deliverOrder(order))
-    }
+        dispatch(deliverOrder(order));
+    };
 
-    const [sdkReady, setSdkReady] = useState(false)
+    const [sdkReady, setSdkReady] = useState(false);
 
     const addPayPalScript = () => {
-        const script = document.createElement('script')
-        script.type = 'text/javascript'
-        script.src = 'https://www.paypal.com/sdk/js?client-id=ARSAwBrnsoPldPewr2wudeBcE3MWvxAEDmgAhnpyXkIrXqzTNLZDOSUPlJphGQHV8hrlPwRfKt_65_Uz'
-        script.async = true
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://www.paypal.com/sdk/js?client-id=ARSAwBrnsoPldPewr2wudeBcE3MWvxAEDmgAhnpyXkIrXqzTNLZDOSUPlJphGQHV8hrlPwRfKt_65_Uz';
+        script.async = true;
         script.onload = () => {
-            setSdkReady(true)
+            setSdkReady(true);
         }
-        document.body.appendChild(script)
-    }
+        document.body.appendChild(script);
+    };
 
     useEffect(() => {
         if (!user) {
           navigate('/login');
         }
         if (!order || order.id !== Number(id)|| successPay || successDeliver) {
-          dispatch(getOrderDetail(id))
-          dispatch(orderCreateReset())
-          dispatch(orderPayReset())
-          dispatch(orderDeliverReset())
+          dispatch(getOrderDetail(id));
+          dispatch(orderCreateReset());
+          dispatch(orderPayReset());
+          dispatch(orderDeliverReset());
         } else if (!order.isPaid) {
             if (!window.paypal) {
-                addPayPalScript()
+                addPayPalScript();
             } else {
-                setSdkReady(true)
+                setSdkReady(true);
             }
        }
     }, [dispatch, navigate, user, order, successPay, successDeliver, id]);
@@ -73,7 +75,7 @@ const OrderPage = () => {
        <Message color={'bg-red-100'}>{error}</Message>
       ) :
         (
-          <div className='mx-auto md:mt-20 mt-36 px-16'>
+          <div className='mx-auto mt-8 px-16'>
             <h1 className="text-2xl font-bold">Order: {order.id}</h1>
             <div className="flex flex-col md:flex-row justify-between items-start">
               <div className="md:w-[65%] w-full mb-8 sm:mb-0 pr-4">

@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const userListSlice = createSlice({
   name: 'userList',
   initialState: {
     loading: false,
-	users: [],
+  users: [],
     error: null,
   },
   reducers: {
@@ -20,9 +21,9 @@ const userListSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-	userListReset: (state) => {
-		state.users = false;
-	}
+  userListReset: (state) => {
+    state.users = false;
+  }
   },
 });
 

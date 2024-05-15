@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const orderUserListSlice = createSlice({
   name: 'orderUserList',
   initialState: {
@@ -21,17 +22,17 @@ const orderUserListSlice = createSlice({
       state.orders = null;
       state.error = action.payload;
     },
-	orderUserListReset: (state) => {
-		state.loading = false;
-		state.orders = [];
-	},
+  orderUserListReset: (state) => {
+    state.loading = false;
+    state.orders = [];
+  },
   },
 });
 
 export const {
-	orderUserListRequest,
-	orderUserListSuccess,
-	orderUserListFailure,
-	orderUserListReset
+  orderUserListRequest,
+  orderUserListSuccess,
+  orderUserListFailure,
+  orderUserListReset
 } = orderUserListSlice.actions;
 export default orderUserListSlice.reducer;

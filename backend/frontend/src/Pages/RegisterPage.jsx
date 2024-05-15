@@ -1,40 +1,40 @@
-import { useState, useEffect } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import Loader from '../Components/Loader'
-import Message from '../Components/Message'
-import { register } from '../redux/actions/userActions'
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import { register } from '../redux/actions/userActions';
 
 
 const RegisterPage = () => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userLogin = useSelector(state => state.userInfo);
   const { error, loading, user } = userLogin;
 
   const userRegister = useSelector(state => state.userRegister);
   const { errorRegister, loadingRegister } = userRegister;
 
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [message, setMessage] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")  
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   function useQuery() {
     return new URLSearchParams(useLocation().search);
   }
-  const query = useQuery()
+  const query = useQuery();
   const redirect = query.get('redirect') ?? '/';
 
   const submitHandler = (e) => {
     e.preventDefault();
     if (password != confirmPassword) {
-      setMessage('Passwords do not match')
+      setMessage('Passwords do not match');
     } else {
-      dispatch(register(name, email, password, confirmPassword))
+      dispatch(register(name, email, password, confirmPassword));
     }
-  }
+  };
 
   useEffect(() => {
     if (user && user.token) {
@@ -117,6 +117,6 @@ const RegisterPage = () => {
       </div>
     </div>
   );
-}
+};
 
-export default RegisterPage
+export default RegisterPage;

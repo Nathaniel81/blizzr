@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const productReviewCreateSlice = createSlice({
   name: 'productReviewCreate',
   initialState: {
@@ -19,10 +20,10 @@ const productReviewCreateSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-	resetProductReview: (state) => {
+  resetProductReview: (state) => {
       state.success = false;
       state.error = null;
-	}
+  }
   },
 });
 

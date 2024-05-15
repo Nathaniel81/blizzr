@@ -26,15 +26,6 @@ const orderCreateSlice = createSlice({
       state.order = {};
       state.success = false;
     },
-    // cartSaveShippingAddress: (state, action) => {
-    //   state.shippingAddress = action.payload;
-    // },
-    // cartSavePaymentMethod: (state, action) => {
-    //   state.paymentMethod = action.payload;
-    // },
-    // cartClearItems: (state) => {
-    //   state.cartItems = [];
-    // },
   },
 });
 
@@ -43,9 +34,5 @@ export const {
   orderCreateSuccess,
   orderCreateFailure,
   orderCreateReset
-//   cartRemoveItem,
-//   cartSaveShippingAddress,
-//   cartSavePaymentMethod,
-//   cartClearItems,
 } = orderCreateSlice.actions;
 export default orderCreateSlice.reducer;

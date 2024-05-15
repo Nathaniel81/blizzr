@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const userDetailSlice = createSlice({
   name: 'userDetail',
   initialState: {
@@ -19,9 +20,9 @@ const userDetailSlice = createSlice({
     userDetailFailure: (state, action) => {
       state.error = action.payload;
     },
-	userDetailReset: (state) => {
-		state.userDetail = null
-	}
+  userDetailReset: (state) => {
+    state.userDetail = null
+  }
   },
 });
 

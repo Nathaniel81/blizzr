@@ -14,4 +14,5 @@ Message.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   color: PropTypes.string,
 };
-export default Message
+
+export default Message;
