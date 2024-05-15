@@ -7,7 +7,10 @@ from rest_framework.test import APIClient
 from django.urls import reverse
 from django.test import override_settings
 from unittest.mock import patch
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
 class CategoryTestCase(APITestCase):
     def setUp(self):
@@ -17,7 +20,15 @@ class CategoryTestCase(APITestCase):
     def test_category_str_method(self):
         self.assertEqual(str(self.category), 'Electronics')
 
-@override_settings(MEDIA_URL='http://testserver')
+# @override_settings(MEDIA_URL='http://testserver')
+
+@override_settings(
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': os.getenv('CLOUDINARY_NAME'),
+        'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+        'API_SECRET': os.getenv('CLOUDINARY_API_SECRET_KEY'),
+    }
+)
 class ProductTestCase(APITestCase):
     def setUp(self):
         self.category = Category.objects.create(name='Electronics')
@@ -55,9 +66,9 @@ class ProductTestCase(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['products'], ProductSerializer([self.product1], many=True).data)
 
-    @patch('cloudinary.utils.cloudinary_url')
-    def test_product_list_view_pagination(self, mock_cloudinary):
-        mock_cloudinary.return_value = ['http://dummy-url.com/image.png', 'options']
+    # @patch('cloudinary.utils.cloudinary_url')
+    def test_product_list_view_pagination(self):
+        # mock_cloudinary.return_value = ['http://dummy-url.com/image.png', 'options']
 
         for i in range(10):
             Product.objects.create(name=f'Product {i+3}', price=10)
@@ -246,9 +257,9 @@ class OrderItemTestCase(APITestCase):
     def test_orderItem_str_method(self):
         self.assertEqual(str(self.orderItem), 'Order Item')
 
-    @patch('cloudinary.utils.cloudinary_url')
-    def test_add_order_items(self, mock_cloudinary):
-        mock_cloudinary.return_value = ['http://dummy-url.com/image.png', 'options']
+    # @patch('cloudinary.utils.cloudinary_url')
+    def test_add_order_items(self):
+        # mock_cloudinary.return_value = ['http://dummy-url.com/image.png', 'options']
         self.client.force_authenticate(user=self.user)
         url = reverse("orders-add")
 
