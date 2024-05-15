@@ -2,13 +2,13 @@
 *.pyc
 *.pyo
 __pycache__/
-
+/stp.txt
 # Django
 *.log
 db.sqlite3
 
 # Virtual Environment
-/myenv
+/blizzrenv
 .env/
 
 # Local development settings
@@ -59,6 +59,9 @@ media/
 
 # Ignore configuration files
 *.conf
+
+./staticfiles
+
 
 # Ignore Docker files
 # Dockerfile

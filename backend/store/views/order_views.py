@@ -73,6 +73,7 @@ class GetOrderView(generics.RetrieveAPIView):
 class GetMyOrdersView(generics.ListAPIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
+
     def get_queryset(self):
         user = self.request.user
         orders = user.order_set.all()
@@ -83,6 +84,7 @@ class UpdateOrderToPaidView(generics.UpdateAPIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
+
     def update(self, request, *args, **kwargs):
         order = self.get_object()
         order.isPaid = True
@@ -97,6 +99,7 @@ class UpdateOrderToDeliverdView(generics.UpdateAPIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
+
     def update(self, request, *args, **kwargs):
         order = self.get_object()
         order.isDelivered = True

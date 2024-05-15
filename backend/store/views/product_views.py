@@ -84,6 +84,7 @@ class DeleteProductView(generics.DestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAdminUser, IsAuthenticated]
+
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
@@ -92,6 +93,7 @@ class DeleteProductView(generics.DestroyAPIView):
 class CreateProductView(generics.CreateAPIView):
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
+
     def perform_create(self, serializer):
         category_name = 'Electronics'
         category_instance, created = Category.objects.get_or_create(name=category_name)

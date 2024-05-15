@@ -1,9 +1,9 @@
 from rest_framework.test import APITestCase
 from .models import User
 from rest_framework import status
-# from .models import Category, Product, Review, Order, OrderItem, ShippingAddress
 from rest_framework.test import APIClient
 from django.urls import reverse
+
 
 class UserTestCase(APITestCase):
     def setUp(self):
