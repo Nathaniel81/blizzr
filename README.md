@@ -22,12 +22,12 @@ Blizzr is a robust e-commerce platform built with React on the frontend and Djan
 
 ## Features
 
-- **User Authentication:**: Secure user login and registration..
-- **Product Browsing:**: Secure user login and registration.
-- **Shopping Cart:**:  Add, remove, and update items in the shopping cart.
-- **Checkout Process:**:  Complete orders with PayPal payment integration.
-- **Reviews:**:  Leave comments and ratings on products.
-- **Admin Panel:**: Full CRUD operations for products, users, and orders.
+- **User Authentication**: Secure user login and registration..
+- **Product Browsing**: Browse products with detailed descriptions and images.
+- **Shopping Cart**:  Add, remove, and update items in the shopping cart.
+- **Checkout Process**:  Complete orders with PayPal payment integration.
+- **Reviews**:  Leave comments and ratings on products.
+- **Admin Panel**: Full CRUD operations for products, users, and orders.
 
 ## Learning Journey
 
