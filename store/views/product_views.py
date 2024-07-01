@@ -8,6 +8,7 @@ from store.models import Product, Review, Category
 from accounts.models import User
 from store.serializers import ProductSerializer, CategorySerializer
 
+
 class ProductList(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer

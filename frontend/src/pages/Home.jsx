@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <div className=''>
       {!keyword && <TopProductsCarousel />}
-      <h1 className="text-2xl font-extrabold px-4 md:px-8 lg:px-16 my-4">LATEST PRODUCTS</h1>
+      <h1 className="text-2xl font-extrabold px-4 md:px-8 lg:px-16 my-4 py-10">LATEST PRODUCTS</h1>
       {loading ? (<Loader />)
         : error ? (
           <div className='px-16 mx-auto'>

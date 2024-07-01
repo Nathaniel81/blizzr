@@ -46,12 +46,10 @@ const Navbar = () => {
     <div className='h-20 sticky px-4 md:px-16 mx-auto z-10 shadow-sm top-0 bg-gray-50'>
       <div className='flex items-center justify-between py-4 relative'>
         <div className='flex items-center'>
-          <div className='avatar w-12'>
-            <Link to="/" className='flex items-center'>
-              <img src="/static/images/logo.png" alt="" />
-              <span className='hidden xl:inline-block font-extrabold'>BLIZZR</span>
+            <Link to="/" className='flex items-center gap-3'>
+              <img src="/static/images/logo_1.png" alt=""  className="w-12 h-12"/>
+              <span className='hidden xl:inline-block font-extrabold text-xl'>BLIZZR</span>
             </Link>
-          </div>
         </div>
         <div className='max-md:hidden w-[70%]'>
           <SearchBar/>
